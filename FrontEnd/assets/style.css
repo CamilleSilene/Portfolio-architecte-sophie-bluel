@@ -84,6 +84,9 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
+/* nav menu */
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -98,6 +101,10 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+
+/*intro*/
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -121,10 +128,41 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+/*Gallery */
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-item {	
+		display: flex;
+		gap: 10px;
+		border: solid 3px;
+		border-color: #1D6154;
+		border-radius: 100px;
+		margin: 10px;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		color: #1D6154;
+	}
+
+.category-item:hover {
+	color: white;
+	background-color: #1D6154;
+}
+
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -137,6 +175,9 @@ li:hover {
 	width: 100%;
 
 }
+
+/* Contact */
+
 #contact {
 	width: 50%;
 margin: auto;
@@ -179,6 +220,8 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+
+/* footer */
 
 footer nav ul {
 	display: flex;
