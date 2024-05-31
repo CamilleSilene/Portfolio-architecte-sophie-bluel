@@ -159,9 +159,13 @@ li:hover {
 .category-item:hover {
 	color: white;
 	background-color: #1D6154;
+	cursor: pointer;
 }
 
-
+.active {
+	color: white;
+	background-color: #1D6154;
+}
 
 .gallery {
 	width: 100%;
