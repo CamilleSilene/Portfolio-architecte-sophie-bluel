@@ -1,30 +1,38 @@
-createWorksList(0);// (0) pour avoir un Tous au démarrage de l'appli
+createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
 createWorksFilters();
 
-
+// on créé une fonction pour créer la liste des Works en utilisant le paramètre "idCateory" - idCategory est lié aux éléments Works
 async function createWorksList(idCategory) {
+  //on va chercher sur l'api le tableau des différents travaux
   const response = await fetch("http://localhost:5678/api/works");
   let works = await response.json();
-  let gallery = document.getElementsByClassName("gallery")[0];
-  gallery.innerHTML = "";
-  //si la catégorie n'est pas "Tous" alors on filtre les works
-  if(idCategory != 0) {
+  //si la catégorie n'est pas égale à 0
+  if (idCategory != 0) {
+    //alors on filtre le tableau works pour donner comme réponse l'idCategory de chaque élément work
     works = works.filter((work) => work.categoryId == idCategory);
   }
-  // pour chaque work dans works
+  let gallery = document.getElementsByClassName("gallery")[0];
+
+  //on vide la page entièrement
+  gallery.innerHTML = "";
+  // pour chaque work dans le tableau works
   for (const work of works) {
     // on construit un element figureElement
     let figureElement = document.createElement("figure");
 
     // on construit un element img , on l'ajoue à  figureElement
     let imgElement = document.createElement("img");
+    // on donne la propriété X du work à l'élément X 
     imgElement.src = work.imageUrl;
     imgElement.alt = work.title;
+    //on rattache l'élément à son parent
     figureElement.appendChild(imgElement);
 
     // on construit un element fig caption, on l'ajoue à  figureElement
     let figCaptionElement = document.createElement("figcaption");
+    // on donne la propriété X du work à l'élément X 
     figCaptionElement.innerText = work.title;
+     //on rattache l'élément à son parent
     figureElement.appendChild(figCaptionElement);
 
     // on ajout figureElement à .gallery
@@ -37,8 +45,9 @@ async function createWorksList(idCategory) {
 async function createWorksFilters() {
   //récupérer les différentes catégories via un appel API
   const response = await fetch("http://localhost:5678/api/categories");
+  //transformation de la réponse en langage json
   const categories = await response.json();
-  
+
   //récupération des catégories
   let categoriesElements = document.getElementsByClassName("categories")[0];
 
@@ -46,13 +55,19 @@ async function createWorksFilters() {
   let div = document.createElement("div");
   //ajout d'une class au div des filtres
   div.classList.add("category-item");
+  //ajout de la classe active par défaut
+  div.classList.add("active");
   //ajout de la catégorie Tous
   div.innerText = "Tous";
   //ajout d'un id à la catégorie Tous
   div.id = "category-0";
+  //ajout de la propriété dataset.id aux éléments filtres
+  //(id="category-1" et on ne peut pas avoir juste id="1"  
+  // un id doit etre unique, l'id de l'objet recupéré en backend ne sera pas suffisant
   div.dataset.id = 0;
   //ajout des div dans categoriesElements
   categoriesElements.appendChild(div);
+  //ajout d'un écouteur d'événement "click" sur les div des filtres
   div.addEventListener("click", onCategoryClick);
 
   //création de la boucle des différents éléments de la liste
@@ -71,20 +86,19 @@ async function createWorksFilters() {
     div.addEventListener("click", onCategoryClick);
   }
 }
-//action de filtrage avec l'événement 
+//action de filtrage avec l'événement
 // créer la fonction événément qui peut être écouter lors d'un clic
-function onCategoryClick( event ) {
-    createWorksList(event.target.dataset.id);
-    console.log(event.target.dataset.id);
-    // enlever classe 'active' à tous les category-item
-    
-    let categoriesItems = document.getElementsByClassName("category-item");
-    for(let item of categoriesItems) {
-        item.classList.remove("active");
-    }
-    event.target.classList.add("active");
-    
+function onCategoryClick(event) {
+  //
+  const idCategory = event.target.dataset.id;
+  //création d'un tableau avec en paramètre idCategory : prise en compte de la catégorie active "en cours"
+  createWorksList(idCategory);
+  // récupérer tous les éléments avec la classe category-item
+  const categoriesItems = document.getElementsByClassName("category-item");
+  for (let item of categoriesItems) {
+    //retirer la classe active à tous les éléments
+    item.classList.remove("active");
+  }
+  //pour ne garder que le filtre actif
+  event.target.classList.add("active");
 }
-
-
-
