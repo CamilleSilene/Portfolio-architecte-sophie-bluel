@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
         rel="stylesheet">
     <meta name="description" content="">
-    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/style.css">    
 </head>
 
 <body>
@@ -28,11 +28,13 @@
     <main>
         <section id="Log-In">
         <h2>Log In</h2>
-        <form action="#" method="post" class="form">
+        <div class="error" id="login-error" style="visibility:hidden;">
+            
+        </div>
+        <form action="#" method="post" class="form"  id="connexion">
 
         <label for="email" class="label">E-mail</label>
-        <input type="email" class="input" id="email"
-        pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
+        <input type="email" class="input" id="email"/>
 
         <label for="password" class="label">Mot de passe</label>
         <input type="password" class="input" id="pass" name="password">
@@ -50,6 +52,7 @@
 			</ul>
 		</nav>
 	</footer>
+    <script src="login.js"></script>
 </body>
 
 </html>

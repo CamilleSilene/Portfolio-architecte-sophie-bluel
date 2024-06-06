@@ -175,6 +175,7 @@ h2 {
 	color: #1D6154
 }
 
+
 /* nav menu */
 
 nav ul {
@@ -351,4 +352,13 @@ footer nav ul {
 
 #forgotten-password:hover {
 	text-decoration: underline;
+}
+
+#login-error {
+	display: flex;
+	margin-top: 40px;
+	justify-content: center;
+	font-weight: bold;
+	color: red;
+	
 }

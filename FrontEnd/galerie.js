@@ -1,6 +1,7 @@
 createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
 createWorksFilters();
 
+console.log(window.localStorage.getItem("token"));
 // on créé une fonction pour créer la liste des Works en utilisant le paramètre "idCateory" - idCategory est lié aux éléments Works
 async function createWorksList(idCategory) {
   //on va chercher sur l'api le tableau des différents travaux
@@ -11,6 +12,7 @@ async function createWorksList(idCategory) {
     //alors on filtre le tableau works pour donner comme réponse l'idCategory de chaque élément work
     works = works.filter((work) => work.categoryId == idCategory);
   }
+  //rajouter un id gallery au cas où il y a une modif html
   let gallery = document.getElementsByClassName("gallery")[0];
 
   //on vide la page entièrement
@@ -48,7 +50,10 @@ async function createWorksFilters() {
   //transformation de la réponse en langage json
   const categories = await response.json();
 
+
+  //ajouter l'objet catégorie dans le tableau - simulation que le backend a envoyé la catégorie 0
   //récupération des catégories
+  //ajouter un id à categorie
   let categoriesElements = document.getElementsByClassName("categories")[0];
 
   //option permettant d'afficher toutes les catégories par défaut
@@ -60,6 +65,7 @@ async function createWorksFilters() {
   //ajout de la catégorie Tous
   div.innerText = "Tous";
   //ajout d'un id à la catégorie Tous
+  //à revoir l'utilité
   div.id = "category-0";
   //ajout de la propriété dataset.id aux éléments filtres
   //(id="category-1" et on ne peut pas avoir juste id="1"  
@@ -78,6 +84,7 @@ async function createWorksFilters() {
     // attribution category.name à l'ajout de texte au contenu du li
     div.innerText = category.name;
     // un id doit etre unique, l'id de l'objet recupéré en backend ne sera pas suffisant
+    //voir si besoin vu qu'il existe le dataset
     div.id = "category-" + category.id;
     div.dataset.id = category.id;
     //ajout de l'élément li à la liste ul
@@ -94,6 +101,7 @@ function onCategoryClick(event) {
   //création d'un tableau avec en paramètre idCategory : prise en compte de la catégorie active "en cours"
   createWorksList(idCategory);
   // récupérer tous les éléments avec la classe category-item
+  
   const categoriesItems = document.getElementsByClassName("category-item");
   for (let item of categoriesItems) {
     //retirer la classe active à tous les éléments
