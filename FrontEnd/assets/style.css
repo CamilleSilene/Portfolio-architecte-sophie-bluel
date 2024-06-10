@@ -175,6 +175,17 @@ h2 {
 	color: #1D6154
 }
 
+/*header*/
+#bandeau-id {
+	background-color: black;
+	color: white;
+	justify-content: center;
+	padding: 10px;
+}
+
+.white-icone {
+	color: white;
+}
 
 /* nav menu */
 
@@ -192,6 +203,7 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
 
 
@@ -273,6 +285,27 @@ li:hover {
 .gallery img {
 	width: 100%;
 
+}
+
+/*login gallery*/
+
+.Projets {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	justify-content: center;
+	
+}
+
+.black-icone {
+	color: black;
+}
+
+#btn-modifier {
+	padding-left: 30px;
+}
+#btn-modifier:hover {
+	cursor: pointer;
 }
 
 /* Contact */
