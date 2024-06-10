@@ -26,6 +26,7 @@ function checkToken() {
   showElementById("btn-modifier", loggedIn);
 }
 
+//fonction pour montrer et cacher les éléments selon login/logout
 function showElementById(elementId, isShown) {
   if (document.getElementById(elementId) !== null) {
     document.getElementById(elementId).style.display = isShown ? "flex" : "none";
