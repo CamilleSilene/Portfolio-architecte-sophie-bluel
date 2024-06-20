@@ -20,7 +20,16 @@ document
   //sinon, on affiche login
   //affichage du bandeau édition et du bouton modifier
 function checkToken() {
-  let loggedIn = window.localStorage.getItem("token") != null;
+  let loggedIn;
+  const token = window.localStorage.getItem("token");
+  if(token != null) {
+    const arrayToken = token.split('.');
+    const tokenPayload = JSON.parse(atob(arrayToken[1]));
+    const expiration = new Date(tokenPayload.exp * 1000);
+    loggedIn = expiration > Date.now();
+  } else {
+    loggedIn = false;
+  }
   document.getElementById("nav-connexion").innerText = loggedIn ? "logout" : "login";
   showElementById("bandeau-id", loggedIn);
   showElementById("btn-modifier", loggedIn);
