@@ -395,3 +395,28 @@ footer nav ul {
 	color: red;
 	
 }
+
+
+/*modal*/
+
+.modal-container {
+	display: flex;	
+	position: absolute;	
+	height: 500px;
+	width: 500px;
+	border-radius: 10px;
+	background: rgba(0, 0, 0, 0.09);
+
+	
+}
+
+.modal-wrapper {
+	background-color: white;
+	flex-direction: column;	
+	height: 500px;
+	width: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 10px;	
+}

@@ -9,7 +9,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -19,7 +21,7 @@
 		<i class="fa-regular fa-pen-to-square white-icone" aria-hidden="true"></i>
 		Mode édition
 	</div>
-	<header>		
+	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
@@ -30,7 +32,7 @@
 			</ul>
 		</nav>
 	</header>
-	<main>		
+	<main>
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
@@ -48,12 +50,28 @@
 		</section>
 		<section id="portfolio">
 			<div class="Projets">
-			<h2>Mes Projets</h2>
-			<div id="btn-modifier" style="display: none;">
-				<i class="fa-regular fa-pen-to-square black-icone" aria-hidden="true"></i>modifier
+				<h2>Mes Projets</h2>
+				<div id="btn-modifier" style="display: none;">
+					<i class="fa-regular fa-pen-to-square black-icone" aria-hidden="true"></i>
+					<a href="#modal" class="js-modal">modifier</a>
+
+					<aside id="modal" class="modal-container" role="dialog" arie-hidden="true"
+						aria-modal="false" style="display: none;">
+						<div class="modal-wrapper js-stop-modal">
+							<button class="js-close-modal">Fermer</button>
+							<div class="Galerie">
+								<span>Galerie photo</span>
+								<input type="submit" value="Ajouter une photo"/>
+							</div>
+							<div class="Ajout" style="display: none">
+								<span>Ajout photo</span>
+								<input type="submit" value="Valider"/>
+							</div>
+						</div>
+					</aside>
+				</div>
 			</div>
-		</div>
-		
+
 			<div class="categories" id="categories-works">
 
 			</div>
@@ -90,6 +108,7 @@
 	</footer>
 	<script src="auth.js"></script>
 	<script src="galerie.js"></script>
+	<script src="modal.js"></script>
 </body>
 
 </html>
