@@ -1,6 +1,14 @@
 createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
-createWorksFilters();
-checkToken();
+
+const loggedIn = isLoggedIn();
+document.getElementById("bandeau-id").style.display = loggedIn ? "flex" : "none";
+document.getElementById("btn-modifier").style.display = loggedIn ? "flex" : "none";
+if ( !loggedIn ) {
+  createWorksFilters();
+}
+
+
+
 
 // on créé une fonction pour créer la liste des Works en utilisant le paramètre "idCateory" - idCategory est lié aux éléments Works
 //on va chercher sur l'api le tableau des différents travaux

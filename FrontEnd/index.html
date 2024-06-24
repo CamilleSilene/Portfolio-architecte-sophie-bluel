@@ -53,18 +53,27 @@
 				<h2>Mes Projets</h2>
 				<div id="btn-modifier" style="display: none;">
 					<i class="fa-regular fa-pen-to-square black-icone" aria-hidden="true"></i>
-					<a href="#modal" class="js-modal">modifier</a>
+					<a href="#modal" id="btn-modifier" class="js-modal">modifier</a>
 
 					<aside id="modal" class="modal-container" role="dialog" arie-hidden="true"
 						aria-modal="false" style="display: none;">
 						<div class="modal-wrapper js-stop-modal">
-							<button class="js-close-modal">Fermer</button>
-							<div class="Galerie">
-								<span>Galerie photo</span>
-								<input type="submit" value="Ajouter une photo"/>
+							<button class="js-close-modal"><i class="fa-solid fa-xmark"></i></button>
+							<div id="modal-gallery">
+								<span class="title-modal">Galerie photo</span>
+								<div id="modal-works-list">
+									
+								</div>
+								<input type="submit" id=addPhoto value="Ajouter une photo"/>
 							</div>
-							<div class="Ajout" style="display: none">
-								<span>Ajout photo</span>
+							<div id="modal-add" style="display: none">
+								<button id="return"><i class="fa-regular fa-arrow-left"></i></button>								
+								<span class="title-modal">Ajout photo</span>
+								<input type="image">
+								<label for="Titre">Titre</label>
+								<input type="text">
+								<label for ="Categories">Categories</label>
+								
 								<input type="submit" value="Valider"/>
 							</div>
 						</div>

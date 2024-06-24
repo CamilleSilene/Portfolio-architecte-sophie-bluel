@@ -402,21 +402,61 @@ footer nav ul {
 .modal-container {
 	display: flex;	
 	position: absolute;	
-	height: 500px;
-	width: 500px;
-	border-radius: 10px;
-	background: rgba(0, 0, 0, 0.09);
-
+	height: 550px;
+	width: 550px;
+	left: 33.7%;
+	top: 70%;
+	overflow: hidden;
+	
+	
 	
 }
 
 .modal-wrapper {
 	background-color: white;
 	flex-direction: column;	
-	height: 500px;
-	width: 500px;
+	height: 100%;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 10px;	
+	border: 1px solid #888;
+	border-radius: 10px;
 }
+
+.modal-gallery {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+
+.js-close-modal {
+	display: flex;
+	flex-direction: row;
+	align-self: end;
+	margin-right: 15px;
+	margin-top: 15px;
+	background-color: white;
+	border: none;
+}
+
+
+	
+/*modal-gallery*/
+.title-modal {
+	display: flex;
+	align-self: center;
+
+
+}
+#modal-works-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+}
+#modal-works-list img {
+	width: 3em;
+}
+

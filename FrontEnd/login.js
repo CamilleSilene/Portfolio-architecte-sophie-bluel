@@ -1,4 +1,5 @@
-checkToken();
+const loggedIn = isLoggedIn();
+
 //écoute event click sur le bouton se connecter//
 const logInForm = document.getElementById("connexion");
 logInForm.addEventListener("submit", function (event) {
@@ -16,21 +17,26 @@ logInForm.addEventListener("submit", function (event) {
 });
 
 async function logIn(logInData) {
-  const response = await fetch("http://localhost:5678/api/users/login", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(logInData),
-  });
-
-  if (response.ok) {
-    response.json().then((data) => {
-      window.localStorage.setItem("token", data.token);
-      window.location.replace("index.html");
+  try {
+    const response = await fetch("http://localhost:5678/api/users/login", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logInData),
     });
-  } else {
-    handleErrors(response);
+
+    if (response.ok) {
+      response.json().then((data) => {
+        window.localStorage.setItem("token", data.token);
+        window.location.replace("index.html");
+      });
+    } else {
+      handleErrors(response);
+    }
+  } catch (error) {
+    console.log(error);
+    //errorMessage = "Erreur"
   }
 }
 

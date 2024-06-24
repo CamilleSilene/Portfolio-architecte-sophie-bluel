@@ -7,9 +7,9 @@ document
   .getElementById("nav-connexion")
   .addEventListener("click", function (event) {
     let navConnection = event.target;
-    if (navConnection.innerText == "logout") {
+    if (isLoggedIn()) {
       window.localStorage.removeItem("token");
-      checkToken();
+      window.location.replace("index.html");
     } else {
       window.location.replace("login.html");
     }
@@ -19,25 +19,24 @@ document
   //si le token est stocké dans le local, on affiche logout
   //sinon, on affiche login
   //affichage du bandeau édition et du bouton modifier
-function checkToken() {
+function isLoggedIn() {
   let loggedIn;
   const token = window.localStorage.getItem("token");
   if(token != null) {
+    console.log("token : "+token);
     const arrayToken = token.split('.');
+    console.log("arrayToken : "+arrayToken);
     const tokenPayload = JSON.parse(atob(arrayToken[1]));
+    console.log("tokenPayload : "+ JSON.stringify(tokenPayload));
     const expiration = new Date(tokenPayload.exp * 1000);
-    loggedIn = expiration > Date.now();
+    console.log("expiration : "+expiration);
+    loggedIn =  expiration > Date.now();
+    console.log("Date.now : "+Date.now());
   } else {
     loggedIn = false;
   }
   document.getElementById("nav-connexion").innerText = loggedIn ? "logout" : "login";
-  showElementById("bandeau-id", loggedIn);
-  showElementById("btn-modifier", loggedIn);
+  return loggedIn;
 }
 
-//fonction pour montrer et cacher les éléments selon login/logout
-function showElementById(elementId, isShown) {
-  if (document.getElementById(elementId) !== null) {
-    document.getElementById(elementId).style.display = isShown ? "flex" : "none";
-  }
-}
+
