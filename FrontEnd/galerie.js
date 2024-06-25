@@ -101,3 +101,4 @@ function onCategoryClick(event) {
   //pour ne garder que le filtre actif
   event.target.classList.add("active");
 }
+

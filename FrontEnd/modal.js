@@ -1,4 +1,5 @@
 createModalWorksList();
+createCategorieSelect();
 
 //cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
 const openModal = function (event) {
@@ -51,11 +52,19 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
-//fonction pour passer d'une vue à l'autre
+//fonction pour passer de modal-gallery à modal-add
 
 document.getElementById("addPhoto").addEventListener("click", (event) => {
   document.getElementById("modal-add").style.display = "flex";
-  document.getElementById("modal-gallery").style.display = "none";
+  document.getElementById("return").style.display = "flex";
+  document.getElementById("modal-gallery").style.display = "none";  
+});
+
+//fonction pour passer de modal-add à modal-gallery
+document.getElementById("return").addEventListener("click", (event) => {
+  document.getElementById("modal-gallery").style.display = "flex";
+  document.getElementById("modal-add").style.display = "none";
+  document.getElementById("return").style.display = "none";
 });
 
 //fonction pour appeler les works dans la modale
@@ -67,15 +76,68 @@ async function createModalWorksList() {
   gallery.innerHTML = "";
 
   for (const work of works) {
-    console.log(work);
     let figureElement = document.createElement("figure");
     let imgElement = document.createElement("img");
+    
+    let corbeille =  document.createElement('i');
+    corbeille.setAttribute('id', work.id);
+    corbeille.addEventListener('click', deleteWork);
+    corbeille.innerText= 'X';
 
     imgElement.src = work.imageUrl;
     imgElement.alt = work.title;
 
     figureElement.appendChild(imgElement);
+    figureElement.appendChild(corbeille);
+    // figureElement.appendChild(linkElement);
 
     gallery.appendChild(figureElement);
+
   }
 }
+
+function deleteWork(event)
+{
+  console.log("delete ", event.target.getAttribute('id'))
+}
+
+//fonction pour le bouton select
+async function createCategorieSelect() {
+  const response = await fetch("http://localhost:5678/api/categories");
+  const categories = await response.json();
+
+  let select = document.getElementById("selectCategorie");
+
+  for (const category of categories) {
+    let option = document.createElement("option");
+    option.innerText = category.name;
+    option.value = category.id;
+    select.appendChild(option);    
+  }
+
+}
+
+document.getElementById('modal-add').addEventListener('submit', (event) => {
+  event.preventDefault();
+  let elements = event.target.elements;
+
+  const token = window.localStorage.getItem('token');
+  const file = elements['file'].files[0];
+
+  let formData = new FormData();
+  formData.append('image', file );
+  formData.append('title', elements['title'].value );
+  formData.append('category',  elements['select-categorie'].value );
+
+  fetch("http://localhost:5678/api/works/",
+    {
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: formData,
+      method: "POST"
+    });
+  createModalWorksList();
+  createWorksList(0);
+});
