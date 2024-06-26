@@ -33,22 +33,9 @@ async function createWorksList(idCategory) {
   // on donne la propriété X du work à l'élément X
   //on rattache l'élément à son parent
   for (const work of works) {
-    let figureElement = document.createElement("figure");
-    let imgElement = document.createElement("img");
-
-    imgElement.src = work.imageUrl;
-    imgElement.alt = work.title;
-
-    figureElement.appendChild(imgElement);
-
-    // on construit un element fig caption, on l'ajoue à  figureElement
-    // on donne la propriété X du work à l'élément X
-    //on rattache l'élément à son parent
-    let figCaptionElement = document.createElement("figcaption");
-    figCaptionElement.innerText = work.title;
-    figureElement.appendChild(figCaptionElement);
-
+    const figureElement = createGalleryFigure(work);
     // on ajoute figureElement à .gallery
+    // gallery.appendChild(createGalleryFigure(work));
     gallery.appendChild(figureElement);
   }
 }
@@ -60,7 +47,7 @@ async function createWorksFilters() {
   const response = await fetch("http://localhost:5678/api/categories");
   const categories = await response.json();
 
-  //ajouter l'objet catégorie dans le tableau
+  //ajouter l'objet catégorie Tous dans le tableau
 
   categories.unshift({
     id: 0,
@@ -102,3 +89,23 @@ function onCategoryClick(event) {
   event.target.classList.add("active");
 }
 
+function createGalleryFigure(work)
+{
+  let figureElement = document.createElement("figure");
+  figureElement.setAttribute("id", "figure-gallery-" + work.id);
+  let imgElement = document.createElement("img");
+
+  imgElement.src = work.imageUrl;
+  imgElement.alt = work.title;
+
+  figureElement.appendChild(imgElement);
+
+  // on construit un element fig caption, on l'ajoue à  figureElement
+  // on donne la propriété X du work à l'élément X
+  //on rattache l'élément à son parent
+  let figCaptionElement = document.createElement("figcaption");
+  figCaptionElement.innerText = work.title;
+  figureElement.appendChild(figCaptionElement);
+
+  return figureElement;
+}

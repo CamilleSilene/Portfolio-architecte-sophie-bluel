@@ -70,15 +70,15 @@
 							<div id="modal-add" style="display: none">															
 								<span class="title-modal">Ajout photo</span>
 								<form method="post" id="form-modal" enctype="multipart/form-data">
-								<input type="file" name="file">
+								<input type="file" id="addFile" name="file" accept="image/png, image/jpeg">
 								<label for="Titre">Titre</label>
-								<input type="text" name="title">
+								<input type="text" id="addTitle" name="title">
 								<label for ="Categories">Categories</label>
 								<select name="select-categorie" id="selectCategorie">
 
 								</select>
 								
-								<input type="submit" class="btn-modale" value="Valider"/>
+								<input type="submit"   class="btn-modale" id="btn-save-work" value="Valider"/>
 							</form>
 							</div>
 						</div>

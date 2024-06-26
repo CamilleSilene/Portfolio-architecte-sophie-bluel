@@ -14,7 +14,7 @@ const openModal = function (event) {
   modal.querySelector(".js-close-modal").addEventListener("click", closeModal);
   modal
     .querySelector(".js-stop-modal")
-    .addEventListener("click", stopPropagation);  ;
+    .addEventListener("click", stopPropagation);
 };
 
 //function pour fermer la modale
@@ -57,7 +57,7 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 document.getElementById("addPhoto").addEventListener("click", (event) => {
   document.getElementById("modal-add").style.display = "flex";
   document.getElementById("return").style.display = "flex";
-  document.getElementById("modal-gallery").style.display = "none";  
+  document.getElementById("modal-gallery").style.display = "none";
 });
 
 //fonction pour passer de modal-add à modal-gallery
@@ -77,28 +77,44 @@ async function createModalWorksList() {
 
   for (const work of works) {
     let figureElement = document.createElement("figure");
+    figureElement.setAttribute("id", "figure-modal-" + work.id);
     let imgElement = document.createElement("img");
-    
-    let corbeille =  document.createElement('i');
-    corbeille.setAttribute('id', work.id);
-    corbeille.addEventListener('click', deleteWork);
-    corbeille.innerText= 'X';
+
+    //création du bouton delete sur chaque éléments de la galerie dans la modale
+    let corbeille = document.createElement("i");
+    corbeille.setAttribute("id", "btn-delete-" + work.id);
+    corbeille.addEventListener("click", deleteWork);
+    corbeille.innerText = "X";
 
     imgElement.src = work.imageUrl;
     imgElement.alt = work.title;
 
     figureElement.appendChild(imgElement);
     figureElement.appendChild(corbeille);
-    // figureElement.appendChild(linkElement);
 
     gallery.appendChild(figureElement);
-
   }
 }
 
-function deleteWork(event)
-{
-  console.log("delete ", event.target.getAttribute('id'))
+//fonction pour supprimer un élément
+async function deleteWork(event) {
+  const id = event.target.getAttribute("id").split('-')[2];
+  if (window.confirm("Souhaitez-vous vraiment supprimer cet élément ?")) {
+    const token = window.localStorage.getItem("token");
+    const response = await fetch("http://localhost:5678/api/works/"+id,
+    {
+      headers: {
+        accept: "application/json",
+        Authorization: "Bearer " + token,
+      },    
+      method: "DELETE",
+    });
+    if(response.status === 200 || response.status === 204) {
+      document.getElementById("figure-modal-" + id).remove();
+      document.getElementById("figure-gallery-" + id).remove();
+    }
+  }
+
 }
 
 //fonction pour le bouton select
@@ -108,36 +124,75 @@ async function createCategorieSelect() {
 
   let select = document.getElementById("selectCategorie");
 
+  //création select -1
+  let option = document.createElement("option");
+  option.innerText = "";
+  option.value = -1;
+  select.appendChild(option);
+  //boucle pour récupérer les id de chaque catégorie et les intégrer aux options du select
   for (const category of categories) {
     let option = document.createElement("option");
     option.innerText = category.name;
     option.value = category.id;
-    select.appendChild(option);    
+    select.appendChild(option);
   }
-
 }
 
-document.getElementById('modal-add').addEventListener('submit', (event) => {
+//ajout des éléments
+document.getElementById("modal-add").addEventListener("submit", async (event) => {
   event.preventDefault();
   let elements = event.target.elements;
 
-  const token = window.localStorage.getItem('token');
-  const file = elements['file'].files[0];
+  const token = window.localStorage.getItem("token");
+  const file = elements["file"].files[0];
 
   let formData = new FormData();
-  formData.append('image', file );
-  formData.append('title', elements['title'].value );
-  formData.append('category',  elements['select-categorie'].value );
+  formData.append("image", file);
+  formData.append("title", elements["title"].value);
+  formData.append("category", elements["select-categorie"].value);
 
-  fetch("http://localhost:5678/api/works/",
-    {
-      headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + token
-      },
-      body: formData,
-      method: "POST"
-    });
+  const response = await fetch("http://localhost:5678/api/works/", {
+    headers: {
+      accept: "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: formData,
+    method: "POST",
+  });
+
+  if(response.status === 201) {
+    let work = await response.json();
+    /*
+    let figure = createGalleryFigure(work);
+    document.getElementById("gallery-works").appendChild(figure);
+    figure = createModalFigure(work);
+    document.getElementById("modal-works").appendChild(figure);
+    */
+  }
   createModalWorksList();
   createWorksList(0);
 });
+
+function isFormValid() {
+  const fileModal = document.getElementById("addFile");
+  const titleWorkModal = document.getElementById("addTitle");
+  const categorieModal = document.getElementById("selectCategorie");
+  console.log(fileModal.files)
+  if (
+    fileModal.files.length <= 0 ||
+    titleWorkModal.value === "" ||
+    categorieModal.value === "-1"
+  ) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+const formAddModal = document.querySelector('#form-modal');
+formAddModal.addEventListener('change', function () {
+    document.getElementById("btn-save-work").disabled = !isFormValid();
+});
+
+
