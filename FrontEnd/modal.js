@@ -17,7 +17,7 @@ const openModal = function (event) {
     .addEventListener("click", stopPropagation);
 };
 
-//function pour fermer la modale
+//const pour fermer la modale
 const closeModal = function (event) {
   event.preventDefault();
   modal.style.display = "none";
@@ -52,22 +52,21 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
-//fonction pour passer de modal-gallery à modal-add
-
+//action de passage de modal-gallery à modal-add
 document.getElementById("addPhoto").addEventListener("click", (event) => {
   document.getElementById("modal-add").style.display = "flex";
   document.getElementById("return").style.display = "flex";
   document.getElementById("modal-gallery").style.display = "none";
 });
 
-//fonction pour passer de modal-add à modal-gallery
+//action de passage de modal-add à modal-gallery
 document.getElementById("return").addEventListener("click", (event) => {
   document.getElementById("modal-gallery").style.display = "flex";
   document.getElementById("modal-add").style.display = "none";
   document.getElementById("return").style.display = "none";
 });
 
-//fonction pour appeler les works dans la modale
+//fonction pour appeler la liste des éléments dans la modale
 async function createModalWorksList() {
   const response = await fetch("http://localhost:5678/api/works");
   let works = await response.json();
@@ -76,25 +75,31 @@ async function createModalWorksList() {
   gallery.innerHTML = "";
 
   for (const work of works) {
-    let figureElement = document.createElement("figure");
-    figureElement.setAttribute("id", "figure-modal-" + work.id);
-    let imgElement = document.createElement("img");
-
-    //création du bouton delete sur chaque éléments de la galerie dans la modale
-    let corbeille = document.createElement("i");
-    corbeille.setAttribute("id", "btn-delete-" + work.id);
-    corbeille.addEventListener("click", deleteWork);
-    corbeille.innerText = "X";
-
-    imgElement.src = work.imageUrl;
-    imgElement.alt = work.title;
-
-    figureElement.appendChild(imgElement);
-    figureElement.appendChild(corbeille);
-
+    const figureElement = createModalFigure(work)
     gallery.appendChild(figureElement);
   }
 }
+
+//fonction pour créer un élément la liste dans la modale
+function createModalFigure(work) {
+  let figureElement = document.createElement("figure");
+     figureElement.setAttribute("id", "figure-modal-" + work.id);
+     let imgElement = document.createElement("img");
+ 
+     //création du bouton delete sur chaque éléments de la galerie dans la modale
+     let corbeille = document.createElement("i");
+     corbeille.setAttribute("id", "btn-delete-" + work.id);
+     corbeille.addEventListener("click", deleteWork);
+     corbeille.innerText = "X";
+ 
+     imgElement.src = work.imageUrl;
+     imgElement.alt = work.title;
+ 
+     figureElement.appendChild(imgElement);
+     figureElement.appendChild(corbeille);
+ 
+     return figureElement
+ }
 
 //fonction pour supprimer un élément
 async function deleteWork(event) {
@@ -173,6 +178,7 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
   createWorksList(0);
 });
 
+//fonction de validation des champs du formulaire Add
 function isFormValid() {
   const fileModal = document.getElementById("addFile");
   const titleWorkModal = document.getElementById("addTitle");
@@ -190,6 +196,7 @@ function isFormValid() {
   }
 }
 
+//déclaration de la const pour que le bouton Valider devienne cliquable si le formulaire est valide
 const formAddModal = document.querySelector('#form-modal');
 formAddModal.addEventListener('change', function () {
     document.getElementById("btn-save-work").disabled = !isFormValid();

@@ -1,17 +1,15 @@
 createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
 
+//const pour afficher ou non le mode édition
 const loggedIn = isLoggedIn();
-document.getElementById("bandeau-id").style.display = loggedIn ? "flex" : "none";
-document.getElementById("btn-modifier").style.display = loggedIn ? "flex" : "none";
-if ( !loggedIn ) {
+document.getElementById("bandeau-id").style.display = loggedIn  ? "flex"  : "none";
+document.getElementById("btn-modifier").style.display = loggedIn  ? "flex"  : "none";
+if (!loggedIn) {
   createWorksFilters();
 }
 
-
-
-
-// on créé une fonction pour créer la liste des Works en utilisant le paramètre "idCateory" - idCategory est lié aux éléments Works
-//on va chercher sur l'api le tableau des différents travaux
+// on créé une fonction pour créer la liste des Works en utilisant le paramètre "idCateory"
+//- idCategory est lié aux éléments Works
 async function createWorksList(idCategory) {
   const response = await fetch("http://localhost:5678/api/works");
   let works = await response.json();
@@ -20,29 +18,18 @@ async function createWorksList(idCategory) {
   if (idCategory != 0) {
     works = works.filter((work) => work.categoryId == idCategory);
   }
-  //rajouter un id gallery au cas où il y a une modif html
+  
   let gallery = document.getElementById("gallery-works");
-
   //on vide la page entièrement
-
   gallery.innerHTML = "";
 
-  // pour chaque work dans le tableau works
-  // on construit un element figureElement
-  // on construit un element img , on l'ajoue à  figureElement
-  // on donne la propriété X du work à l'élément X
-  //on rattache l'élément à son parent
+  // pour chaque work dans le tableau works, on construit un element figureElement généré grâce à la fonction 
   for (const work of works) {
     const figureElement = createGalleryFigure(work);
-    // on ajoute figureElement à .gallery
-    // gallery.appendChild(createGalleryFigure(work));
     gallery.appendChild(figureElement);
   }
 }
-//créer la fonction pour filtrer la galerie
-//récupérer les différentes catégories via un appel API
-//transformation de la réponse en langage json
-
+//fonction pour créer le filtrage des works
 async function createWorksFilters() {
   const response = await fetch("http://localhost:5678/api/categories");
   const categories = await response.json();
@@ -72,7 +59,7 @@ async function createWorksFilters() {
   }
   document.querySelector(".category-item[data-id='0']").classList.add("active");
 }
-//action de filtrage avec l'événement
+//fonction action de filtrage avec l'événement
 // créer la fonction événément qui peut être écouter lors d'un clic
 function onCategoryClick(event) {
   const idCategory = event.target.dataset.id;
@@ -89,8 +76,8 @@ function onCategoryClick(event) {
   event.target.classList.add("active");
 }
 
-function createGalleryFigure(work)
-{
+//fonction pour créer un élément figure dans le gallery
+function createGalleryFigure(work) {
   let figureElement = document.createElement("figure");
   figureElement.setAttribute("id", "figure-gallery-" + work.id);
   let imgElement = document.createElement("img");
@@ -100,9 +87,6 @@ function createGalleryFigure(work)
 
   figureElement.appendChild(imgElement);
 
-  // on construit un element fig caption, on l'ajoue à  figureElement
-  // on donne la propriété X du work à l'élément X
-  //on rattache l'élément à son parent
   let figCaptionElement = document.createElement("figcaption");
   figCaptionElement.innerText = work.title;
   figureElement.appendChild(figCaptionElement);
