@@ -1,6 +1,8 @@
 createModalWorksList();
 createCategorieSelect();
+enableButton("btn-save-work", false );
 
+//fonction openModal
 //cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
 const openModal = function (event) {
   event.preventDefault();
@@ -17,7 +19,7 @@ const openModal = function (event) {
     .addEventListener("click", stopPropagation);
 };
 
-//const pour fermer la modale
+//fonction closeModal
 const closeModal = function (event) {
   event.preventDefault();
   modal.style.display = "none";
@@ -33,21 +35,19 @@ const closeModal = function (event) {
   modal = null;
 };
 
-//fermer la modale avec un clic à l'extérieur
+//closeModal au click extérieur
 document.addEventListener("click", (event) => {
   if (event.target.id != "btn-modifier") {
     closeModal(event);
   }
 });
 
-//empeche la propagation de l'événement par le parent
-//la modale ne se ferme plus quand on clique dedans
+//fonction stopPropagation pour stopper la fermeture de la modale au click intérieur
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
 
-//sélectionne tous les liens qui ont la class js-modal et ajout un eventlistener
-// écoute l'événement click qui lance la fonction openModal
+//openModal au click sur les éléments qui ont la classe js-modal
 document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
@@ -143,7 +143,7 @@ async function createCategorieSelect() {
   }
 }
 
-//ajout des éléments
+//ajout des éléments dans le form
 document.getElementById("modal-add").addEventListener("submit", async (event) => {
   event.preventDefault();
   let elements = event.target.elements;
@@ -178,28 +178,50 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
   createWorksList(0);
 });
 
-//fonction de validation des champs du formulaire Add
+//fonction previewPicture
+let imageAddModal = document.getElementById("imageAddModal");
+document.getElementById("addFile").addEventListener('change', previewPicture );
+function previewPicture (event) {
+  const picture = event.target.files[0];
+  if (picture) {
+    const reader = new FileReader ();
+    reader.onload = function (loadedEvent) {
+      imageAddModal.src = loadedEvent.target.result;
+    }
+    reader.readAsDataURL(picture);
+  }
+
+}
+
+//fonction isFormValid > validation des champs du formulaire Add
 function isFormValid() {
   const fileModal = document.getElementById("addFile");
   const titleWorkModal = document.getElementById("addTitle");
   const categorieModal = document.getElementById("selectCategorie");
-  console.log(fileModal.files)
-  if (
-    fileModal.files.length <= 0 ||
-    titleWorkModal.value === "" ||
-    categorieModal.value === "-1"
+  if ( fileModal.files.length > 0 && titleWorkModal.value != "" && categorieModal.value != "-1"
   ) {
-    return false;
+    console.log("valide")
+    return true;
   }
   else {
-    return true;
+    console.log("non valide")
+    return false;
   }
 }
 
-//déclaration de la const pour que le bouton Valider devienne cliquable si le formulaire est valide
+//isFormValid > le bouton Valider devienne cliquable si le formulaire est valide
 const formAddModal = document.querySelector('#form-modal');
 formAddModal.addEventListener('change', function () {
-    document.getElementById("btn-save-work").disabled = !isFormValid();
+  enableButton("btn-save-work", isFormValid() );
 });
 
-
+//fonction activation bouton générique
+function enableButton(elementId, enabled) {
+  let element = document.getElementById(elementId);
+  element.disabled = !enabled;
+  if(!enabled) {
+    element.classList.add("disabled");
+  } else {
+    element.classList.remove("disabled");
+  }
+}

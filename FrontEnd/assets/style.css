@@ -509,3 +509,7 @@ footer nav ul {
 	margin-left: -60px;
 	margin-top: -15px;
 }
+
+.disabled {
+	opacity: 0.5;
+}

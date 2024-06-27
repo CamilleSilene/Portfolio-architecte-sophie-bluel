@@ -93,3 +93,4 @@ function createGalleryFigure(work) {
 
   return figureElement;
 }
+
