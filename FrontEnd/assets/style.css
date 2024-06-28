@@ -404,7 +404,7 @@ footer nav ul {
 	justify-content: center;
 	font-weight: bold;
 	color: red;
-	
+	visibility:hidden;
 }
 
 
@@ -422,9 +422,6 @@ footer nav ul {
 	right: 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	
-	
-	
 }
 
 .modal-wrapper {
@@ -441,7 +438,7 @@ footer nav ul {
 
 
 
-.js-close-modal {
+#js-close-modal {
 	display: flex;
 	flex-direction: row;
 	align-self: end;
@@ -498,8 +495,8 @@ footer nav ul {
 /*modale-add*/
 #modal-add {
 	display: flex;
-	flex-direction: column;
-}
+	flex-direction: column;	
+	}
 
 #return {
 	display: flex;
@@ -513,3 +510,4 @@ footer nav ul {
 .disabled {
 	opacity: 0.5;
 }
+
