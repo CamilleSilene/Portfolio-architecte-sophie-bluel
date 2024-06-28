@@ -17,7 +17,7 @@
 </head>
 
 <body>
-	<div id="bandeau-id" style="display: none;">
+	<div id="bandeau-id">
 		<i class="fa-regular fa-pen-to-square white-icone" aria-hidden="true"></i>
 		Mode édition
 	</div>
@@ -51,36 +51,13 @@
 		<section id="portfolio">
 			<div class="Projets">
 				<h2>Mes Projets</h2>
-				<div id="btn-modifier" style="display: none;">
+				<div id="btn-modifier">
 					<i class="fa-regular fa-pen-to-square black-icone" aria-hidden="true"></i>
 					<a href="#modal" id="btn-modifier" class="js-modal">modifier</a>
 
 					<aside id="modal" class="modal-container" role="dialog" arie-hidden="true"
-						aria-modal="false" style="display: none;">
-						<div class="modal-wrapper js-stop-modal">
-							<button class="js-close-modal"><i class="fa-solid fa-xmark"></i></button>
-							<button id="return" style="display: none"><i class="fa-solid fa-arrow-left"></i></button>	
-							<div id="modal-gallery">
-								<span class="title-modal">Galerie photo</span>
-								<div id="modal-works-list">
-									
-								</div>
-								<input type="submit" class="btn-modale" id="addPhoto" value="Ajouter une photo"/>
-							</div>
-							<div id="modal-add" style="display: none">															
-								<span class="title-modal">Ajout photo</span>
-								<form method="post" id="form-modal" enctype="multipart/form-data">
-								<input type="file" id="addFile" name="file" accept="image/png, image/jpeg">
-								<label for="Titre">Titre</label>
-								<input type="text" id="addTitle" name="title" value="">
-								<label for ="Categories">Categories</label>
-								<select name="select-categorie" id="selectCategorie"  value="-1">
-								</select>
-								<img id="imageAddModal">
-								<input type="submit"   class="btn-modale" id="btn-save-work" value="Valider"/>
-							</form>
-							</div>
-						</div>
+						aria-modal="false">
+					
 					</aside>
 				</div>
 			</div>
@@ -109,7 +86,6 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
-		<div class="ma-div"></div>
 	</main>
 
 	<footer>

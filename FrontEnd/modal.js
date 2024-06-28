@@ -1,33 +1,143 @@
 createModalWorksList();
 createCategorieSelect();
-enableButton("btn-save-work", false );
+createModal();
+//enableButton("btn-save-work", false );
+
+//fonction de création de modale
+function createModal() {
+  let asideModal = document.getElementById("modal");
+  modal.style.display = "none";
+
+  let modalWrapper = document.createElement("div");
+  modalWrapper.classList.add("modal-wrapper");
+  modalWrapper.classList.add("js-stop-modal");
+  asideModal.appendChild(modalWrapper);
+  
+  let buttonClose = document.createElement("button");
+  buttonClose.setAttribute("id", "js-close-modal");
+  let iClose = document.createElement("i");
+  iClose.classList.add("fa-solid");
+  iClose.classList.add("fa-xmark");
+  buttonClose.appendChild(iClose);
+  modalWrapper.appendChild(buttonClose);
+
+  let buttonReturn = document.createElement("button");
+  buttonReturn.setAttribute("id", "return")
+  let iArrowLeft = document.createElement("i");
+  iArrowLeft.classList.add("fa-solid");
+  iArrowLeft.classList.add("fa-arrow-left");
+  buttonReturn.appendChild(iArrowLeft);
+
+  modalWrapper.appendChild(buttonReturn);
+
+  //modalGallery
+  let modalGallery = document.createElement("div");
+  modalGallery.setAttribute("id", "modal-gallery");
+  titleModalGallery = document.createElement("span");
+  titleModalGallery.innerText = "Galerie photo";
+  modalGallery.appendChild(titleModalGallery);
+
+  //inputModalWorksList
+  let modalWorksList = document.createElement("div");
+  modalWorksList.setAttribute("id", "modal-works-list");
+  modalGallery.appendChild(modalWorksList);
+
+  let inputModalWorksList = document.createElement("input");
+  inputModalWorksList.setAttribute("type", "submit");
+  inputModalWorksList.setAttribute("id", "addPhoto");
+  inputModalWorksList.classList.add("btn-modale");
+  inputModalWorksList.value = "Ajouter une photo";
+  modalGallery.appendChild(inputModalWorksList);
+
+  modalWrapper.appendChild(modalGallery);
+
+  //modalAdd
+  let modalAdd = document.createElement("div");  
+  modalAdd.style.display = "none";
+  modalAdd.setAttribute("id", "modal-add");
+  titleModalAdd = document.createElement("span");
+  titleModalAdd.innerText = "Ajout photo";
+  modalAdd.appendChild(titleModalAdd);
+
+  //modalAddForm
+  let modalAddForm = document.createElement("form");
+  modalAddForm.setAttribute("method", "post");
+  modalAddForm.setAttribute("enctype", "multipart/form-data");
+  modalAddForm.setAttribute("id", "form-modal");
+
+  let div = document.createElement("div");
+  let inputFile = document.createElement("input");
+  inputFile.setAttribute("id", "addFile");
+  inputFile.setAttribute("type", "file");
+  inputFile.setAttribute("accept", "image/png, image/jpeg");
+  div.appendChild(inputFile)
+  modalAddForm.appendChild(div);
+
+  div = document.createElement("div");
+  let labelInputTitle = document.createElement("label");
+  labelInputTitle.innerText = "Titre";
+  let inputTitle = document.createElement("input");
+  inputTitle.setAttribute("id", "addTitle");
+  inputTitle.setAttribute("name", "title");
+  inputTitle.setAttribute("value", "");
+  div.appendChild(labelInputTitle);
+  div.appendChild(inputTitle);
+  modalAddForm.appendChild(div);
+
+  div = document.createElement("div");
+  let labelSelectCategories = document.createElement("label");
+  labelSelectCategories.innerText = "Catégories";
+  let selectCategorieModal = document.createElement("select");
+  selectCategorieModal.setAttribute("name", "select-categorie");
+  selectCategorieModal.setAttribute("id", "selectCategorie");
+  selectCategorieModal.setAttribute("value", "-1");
+  div.appendChild(labelSelectCategories);
+  div.appendChild(selectCategorieModal);
+  modalAddForm.appendChild(div);
+
+  //imgPreview
+  let imgPreview = document.createElement("img");
+  imgPreview.setAttribute("id", "imageAddModal");
+  modalAddForm.appendChild(imgPreview);
+
+  //Btn-modale
+  let buttonModalSave = document.createElement("input");
+  buttonModalSave.setAttribute("type", "submit");
+  buttonModalSave.classList.add("btn-modale");
+  buttonModalSave.setAttribute("id", "btn-save-work");
+  buttonModalSave.setAttribute("value", "Valider");
+  modalAddForm.appendChild(buttonModalSave);
+
+  modalAdd.appendChild(modalAddForm);
+  modalWrapper.appendChild(modalAdd);
+
+  document.getElementById("return").style.display = "none";
+}
 
 //fonction openModal
 //cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
 const openModal = function (event) {
   event.preventDefault();
-  const target = document.querySelector(event.target.getAttribute("href"));
-  //retrait du display none (html)
+  const target = document.querySelector(event.target.getAttribute("href"));  
   target.style.display = null;
-  target.removeAttribute("aria-hidden");
+  target.removeAttribute("aria-hidden");  
   target.setAttribute("aria-modal", "true");
   modal = target;
   modal.addEventListener("click", closeModal);
-  modal.querySelector(".js-close-modal").addEventListener("click", closeModal);
-  modal
-    .querySelector(".js-stop-modal")
-    .addEventListener("click", stopPropagation);
+  modal.querySelector("#js-close-modal").addEventListener("click", closeModal);
+  modal.querySelector(".js-stop-modal").addEventListener("click", stopPropagation);
 };
 
 //fonction closeModal
 const closeModal = function (event) {
   event.preventDefault();
+  let modal = document.getElementById("modal");
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal);
   modal
-    .querySelector(".js-close-modal")
+    .querySelector("#js-close-modal")
     .removeEventListener("click", closeModal);
   modal
     .querySelector(".js-stop-modal")
@@ -132,7 +242,7 @@ async function createCategorieSelect() {
   //création select -1
   let option = document.createElement("option");
   option.innerText = "";
-  option.value = -1;
+  option.value = "-1";
   select.appendChild(option);
   //boucle pour récupérer les id de chaque catégorie et les intégrer aux options du select
   for (const category of categories) {
@@ -150,7 +260,7 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
 
   const token = window.localStorage.getItem("token");
   const file = elements["file"].files[0];
-
+console.log(file);
   let formData = new FormData();
   formData.append("image", file);
   formData.append("title", elements["title"].value);
@@ -166,16 +276,12 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
   });
 
   if(response.status === 201) {
-    let work = await response.json();
-    /*
+    let work = await response.json();    
     let figure = createGalleryFigure(work);
     document.getElementById("gallery-works").appendChild(figure);
     figure = createModalFigure(work);
-    document.getElementById("modal-works").appendChild(figure);
-    */
-  }
-  createModalWorksList();
-  createWorksList(0);
+    document.getElementById("modal-works").appendChild(figure);    
+    }
 });
 
 //fonction previewPicture
@@ -209,13 +315,13 @@ function isFormValid() {
   }
 }
 
-//isFormValid > le bouton Valider devienne cliquable si le formulaire est valide
+/*isFormValid > le bouton Valider devienne cliquable si le formulaire est valide
 const formAddModal = document.querySelector('#form-modal');
 formAddModal.addEventListener('change', function () {
   enableButton("btn-save-work", isFormValid() );
-});
+});*/
 
-//fonction activation bouton générique
+/*fonction activation bouton générique
 function enableButton(elementId, enabled) {
   let element = document.getElementById(elementId);
   element.disabled = !enabled;
@@ -224,4 +330,4 @@ function enableButton(elementId, enabled) {
   } else {
     element.classList.remove("disabled");
   }
-}
+}*/

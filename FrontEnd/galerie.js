@@ -94,3 +94,18 @@ function createGalleryFigure(work) {
   return figureElement;
 }
 
+
+//fonction création de bouton
+function createButton(id, faName) {
+  let button = document.createElement('button');
+  button.setAttribute('id', id);
+  let icon = document.createElement('i');
+  icon.classList.add('fa-solid');
+  icon.classList.add(faName);
+  button.appendChild(icon);
+  return button;
+}
+/*
+modalWrapper.appendChild(createButton("js-close-modal", "fa-arrow-left"));
+modalWrapper.appendChild(createButton("return", "fa-xmark"));
+*/
