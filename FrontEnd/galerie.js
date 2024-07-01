@@ -105,7 +105,3 @@ function createButton(id, faName) {
   button.appendChild(icon);
   return button;
 }
-/*
-modalWrapper.appendChild(createButton("js-close-modal", "fa-arrow-left"));
-modalWrapper.appendChild(createButton("return", "fa-xmark"));
-*/
