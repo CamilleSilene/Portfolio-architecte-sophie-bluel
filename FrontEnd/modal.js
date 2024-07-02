@@ -1,7 +1,7 @@
 createModalWorksList();
 createCategorieSelect();
 createModal();
-enableButton("btn-save-work", false );
+enableButton("btn-save-work", false);
 
 //fonction de création de modale
 function createModal() {
@@ -27,7 +27,7 @@ function createModal() {
   //modalGallery
   let modalGallery = document.createElement("div");
   modalGallery.setAttribute("id", "modal-gallery");
-  titleModalGallery = document.createElement("span");
+  titleModalGallery = document.createElement("h3");
   titleModalGallery.innerText = "Galerie photo";
   modalGallery.appendChild(titleModalGallery);
 
@@ -49,8 +49,8 @@ function createModal() {
   //modalAdd
   let modalAdd = document.createElement("div");
   modalAdd.style.display = "none";
-  modalAdd.setAttribute("id", "modal-add");  
-  titleModalAdd = document.createElement("span");
+  modalAdd.setAttribute("id", "modal-add");
+  titleModalAdd = document.createElement("h3");
   titleModalAdd.innerText = "Ajout photo";
   modalAdd.appendChild(titleModalAdd);
 
@@ -61,28 +61,39 @@ function createModal() {
   modalAddForm.setAttribute("id", "form-modal");
 
   //input file
-  let div = document.createElement("div");
+  let divFormFile = document.createElement("div");
+  divFormFile.classList.add("divForm");
+  divFormFile.setAttribute("id", "formFileId")
+
   let inputFile = document.createElement("input");
   inputFile.setAttribute("id", "addFile");
   inputFile.setAttribute("type", "file");
   inputFile.setAttribute("name", "file");
   inputFile.setAttribute("accept", "image/png, image/jpeg");
-  div.appendChild(inputFile);
-  modalAddForm.appendChild(div);
+
+  let labelInputFile = document.createElement("label");
+  labelInputFile.innerText = "+ Ajouter photo";
+
+  let iconeFileFormAdd = document.createElement("i");
+  iconeFileFormAdd.classList.add("fa-regular");
+  iconeFileFormAdd.classList.add("fa-file-image");
+
+  divFormFile.appendChild(iconeFileFormAdd);
+  inputFile.appendChild(labelInputFile);
+  divFormFile.appendChild(inputFile);
+  modalAddForm.appendChild(divFormFile);
 
   let divErrorTypeFile = document.createElement("div");
   divErrorTypeFile.setAttribute("id", "error-type-file");
   divErrorTypeFile.classList.add("error");
   divErrorTypeFile.innerText = "Le fichier doit être en format jpg ou png";
   modalAddForm.appendChild(divErrorTypeFile);
-  
 
   let divErrorSizeFile = document.createElement("div");
   divErrorSizeFile.setAttribute("id", "error-size-file");
   divErrorSizeFile.classList.add("error");
   divErrorSizeFile.innerText = "Le fichier ne doit pas dépasser 4Mo.";
   modalAddForm.appendChild(divErrorSizeFile);
-  
 
   //imgPreview
   let imgPreview = document.createElement("img");
@@ -90,28 +101,32 @@ function createModal() {
   modalAddForm.appendChild(imgPreview);
 
   //input title
-  div = document.createElement("div");
+  divFormTitle = document.createElement("div");
+  divFormTitle.classList.add("divForm");
   let labelInputTitle = document.createElement("label");
+  labelInputTitle.classList.add("labelFormAdd");
   labelInputTitle.innerText = "Titre";
   let inputTitle = document.createElement("input");
   inputTitle.setAttribute("id", "addTitle");
   inputTitle.setAttribute("name", "title");
   inputTitle.setAttribute("value", "");
-  div.appendChild(labelInputTitle);
-  div.appendChild(inputTitle);
-  modalAddForm.appendChild(div);
+  divFormTitle.appendChild(labelInputTitle);
+  divFormTitle.appendChild(inputTitle);
+  modalAddForm.appendChild(divFormTitle);
 
   //input select
-  div = document.createElement("div");
+  divFormSelect = document.createElement("div");
+  divFormSelect.classList.add("divForm");
   let labelSelectCategories = document.createElement("label");
   labelSelectCategories.innerText = "Catégories";
+  labelSelectCategories.classList.add("labelFormAdd");
   let selectCategorieModal = document.createElement("select");
   selectCategorieModal.setAttribute("name", "select-categorie");
   selectCategorieModal.setAttribute("id", "selectCategorie");
   selectCategorieModal.setAttribute("value", "-1");
-  div.appendChild(labelSelectCategories);
-  div.appendChild(selectCategorieModal);
-  modalAddForm.appendChild(div);
+  divFormSelect.appendChild(labelSelectCategories);
+  divFormSelect.appendChild(selectCategorieModal);
+  modalAddForm.appendChild(divFormSelect);
 
   //Btn-modale
   let buttonModalSave = document.createElement("input");
@@ -129,7 +144,7 @@ function createModal() {
 
 //fonction openModal
 //cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
-const openModal = function (event) {
+function openModal (event) {
   event.preventDefault();
   const target = document.querySelector(event.target.getAttribute("href"));
   target.style.display = null;
@@ -144,7 +159,7 @@ const openModal = function (event) {
 };
 
 //fonction closeModal
-const closeModal = function (event) {
+function closeModal(event) {
   event.preventDefault();
   let modal = document.getElementById("modal");
   modal.style.display = "none";
@@ -168,7 +183,7 @@ document.addEventListener("click", (event) => {
 });
 
 //fonction stopPropagation pour stopper la fermeture de la modale au click intérieur
-const stopPropagation = function (event) {
+function stopPropagation (event) {
   event.stopPropagation();
 };
 
@@ -185,7 +200,7 @@ document.getElementById("addPhoto").addEventListener("click", (event) => {
 });
 
 //action de passage de modal-add à modal-gallery au click sur return
-document.getElementById("return").addEventListener("click", (event) => {
+  document.getElementById("return").addEventListener("click", (event) => {
   document.getElementById("modal-gallery").style.display = "flex";
   document.getElementById("modal-add").style.display = "none";
   document.getElementById("return").style.display = "none";
@@ -246,7 +261,7 @@ function createModalFigure(work) {
 
 //fonction pour supprimer un élément
 async function deleteWork(event) {
-  console.log(event.target)
+  console.log(event.target);
   const id = event.target.getAttribute("id").split("-")[2];
   if (window.confirm("Souhaitez-vous vraiment supprimer cet élément ?")) {
     const token = window.localStorage.getItem("token");
@@ -286,9 +301,7 @@ async function createCategorieSelect() {
 }
 
 //ajout des éléments dans le form
-document
-  .getElementById("modal-add")
-  .addEventListener("submit", async (event) => {
+document.getElementById("modal-add").addEventListener("submit", async (event) => {
     event.preventDefault();
     let elements = event.target.elements;
 
@@ -319,20 +332,19 @@ document
     document.getElementById("form-modal").reset();
     document.getElementById("imageAddModal").src = "";
     enableButton("btn-save-work", false);
-
   });
 
 //fonction previewPicture
 let imageAddModal = document.getElementById("imageAddModal");
 document.getElementById("addFile").addEventListener("change", previewPicture);
 function previewPicture(event) {
-  const picture = event.target.files[0];
-  if (picture) {
+  const file = event.target.files[0];
+  if (file) {
     const reader = new FileReader();
     reader.onload = function (loadedEvent) {
       imageAddModal.src = loadedEvent.target.result;
     };
-    reader.readAsDataURL(picture);
+    reader.readAsDataURL(file);
   }
 }
 
@@ -342,7 +354,7 @@ function isFormValid() {
   const categorieModal = document.getElementById("selectCategorie");
   const fileModal = document.getElementById("addFile");
   if (
-    isFileValid(fileModal, 4194304 )  &&    
+    isFileValid(fileModal, 4194304) &&
     titleWorkModal.value != "" &&
     categorieModal.value != "-1"
   ) {
@@ -351,23 +363,28 @@ function isFormValid() {
   } else {
     console.log("non valide");
     return false;
-  }  
+  }
 }
 
+//fonction pour valider les valeurs de l'image à uploader
 function isFileValid() {
   const fileModal = document.getElementById("addFile");
   let errorSizeFile = document.getElementById("error-size-file");
   let errorTypeFile = document.getElementById("error-type-file");
 
-  if ( fileModal.files.length > 0 && fileModal.files[0].size > 4194304){
+  if (fileModal.files.length > 0 && fileModal.files[0].size > 4194304) {
     errorSizeFile.style.visibility = "visible";
     return false;
   }
-  if ( fileModal.files.length > 0 && ( fileModal.files[0].type != 'image/jpeg' || fileModal.files[0].type != 'image/png' ) ) {
+  if (
+    fileModal.files.length > 0 &&
+    (fileModal.files[0].type != "image/jpeg" ||
+      fileModal.files[0].type != "image/png")
+  ) {
     errorTypeFile.style.visibility = "visible";
     return false;
   }
-  
+
   errorSizeFile.style.visibility = "hidden";
   errorTypeFile.style.visibility = "hidden";
   return true;

@@ -406,6 +406,14 @@ footer nav ul {
 }
 /*modal*/
 
+h3 {
+	display: flex;
+	justify-content: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 20px;
+}
+
 .modal-container {
 	display: flex;	
 	position: absolute;	
@@ -460,8 +468,6 @@ footer nav ul {
 	font-weight: 100;
 	padding-top: 20px;
 	padding-bottom: 18px;
-
-
 }
 
 #modal-works-list {
@@ -477,28 +483,7 @@ footer nav ul {
 	overflow-y: scroll;
 	max-height: 300px;
 }
-/*
-#modal-works-list img {
-	width: 7em;
-	height: 9.5em;
-	object-fit: cover;
-	padding-top: 30px;
-}
-	*/
-/*
-.works-corbeille {
-	display: flex;
-	padding: 5px;
-	height: fit-content;
-	margin-top: 40px;
-	justify-content: center;
-	min-width: 15px;
-	margin-left: -33px;	
-	border-radius: 5px;
-	color: white;
-	background-color: black;
-}
-	*/
+
 .works-corbeille {
 	position: relative;
 	top: 2.4em;
@@ -572,12 +557,55 @@ footer nav ul {
 #form-modal {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	padding-top: 20px;
+	
+}
 
+.divForm{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-top: 35px;
+}
+
+.labelFormAdd {
+	padding-bottom: 15px;
+	font-size: 15px;
+}
+
+#formFileId{
+	background-color: aliceblue;
+	padding: 70px;
+}
+
+#addFile {
+	display: flex;
+	align-self: center;
+	padding-top: 20px;
+}
+
+.fa-file-image {
+	font-weight: 400;
+	font-size: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;    
+}
+
+
+#login-error {
+	display: flex;
+	margin-top: 40px;
+	justify-content: center;
+	font-weight: bold;
+	color: red;
+	visibility:hidden;
 }
 
 .error {
-	display: flex;
-	margin-top: 40px;
+	display: flex;	
 	justify-content: center;
 	font-weight: bold;
 	color: red;
