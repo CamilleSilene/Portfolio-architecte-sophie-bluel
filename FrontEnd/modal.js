@@ -70,6 +70,20 @@ function createModal() {
   div.appendChild(inputFile);
   modalAddForm.appendChild(div);
 
+  let divErrorTypeFile = document.createElement("div");
+  divErrorTypeFile.setAttribute("id", "error-type-file");
+  divErrorTypeFile.classList.add("error");
+  divErrorTypeFile.innerText = "Le fichier doit être en format jpg ou png";
+  modalAddForm.appendChild(divErrorTypeFile);
+  
+
+  let divErrorSizeFile = document.createElement("div");
+  divErrorSizeFile.setAttribute("id", "error-size-file");
+  divErrorSizeFile.classList.add("error");
+  divErrorSizeFile.innerText = "Le fichier ne doit pas dépasser 4Mo.";
+  modalAddForm.appendChild(divErrorSizeFile);
+  
+
   //imgPreview
   let imgPreview = document.createElement("img");
   imgPreview.setAttribute("id", "imageAddModal");
@@ -303,7 +317,9 @@ document
       document.getElementById("modal-works-list").appendChild(figure);
     }
     document.getElementById("form-modal").reset();
-    document.getElementById("imageAddModal").reset();
+    document.getElementById("imageAddModal").src = "";
+    enableButton("btn-save-work", false);
+
   });
 
 //fonction previewPicture
@@ -322,11 +338,11 @@ function previewPicture(event) {
 
 //fonction isFormValid > validation des champs du formulaire Add
 function isFormValid() {
-  const fileModal = document.getElementById("addFile");
   const titleWorkModal = document.getElementById("addTitle");
   const categorieModal = document.getElementById("selectCategorie");
+  const fileModal = document.getElementById("addFile");
   if (
-    fileModal.files.length > 0 &&
+    isFileValid(fileModal, 4194304 )  &&    
     titleWorkModal.value != "" &&
     categorieModal.value != "-1"
   ) {
@@ -335,7 +351,26 @@ function isFormValid() {
   } else {
     console.log("non valide");
     return false;
+  }  
+}
+
+function isFileValid() {
+  const fileModal = document.getElementById("addFile");
+  let errorSizeFile = document.getElementById("error-size-file");
+  let errorTypeFile = document.getElementById("error-type-file");
+
+  if ( fileModal.files.length > 0 && fileModal.files[0].size > 4194304){
+    errorSizeFile.style.visibility = "visible";
+    return false;
   }
+  if ( fileModal.files.length > 0 && ( fileModal.files[0].type != 'image/jpeg' || fileModal.files[0].type != 'image/png' ) ) {
+    errorTypeFile.style.visibility = "visible";
+    return false;
+  }
+  
+  errorSizeFile.style.visibility = "hidden";
+  errorTypeFile.style.visibility = "hidden";
+  return true;
 }
 
 //isFormValid > le bouton Valider devienne cliquable si le formulaire est valide

@@ -404,17 +404,6 @@ footer nav ul {
 #forgotten-password:hover {
 	text-decoration: underline;
 }
-
-#login-error {
-	display: flex;
-	margin-top: 40px;
-	justify-content: center;
-	font-weight: bold;
-	color: red;
-	visibility:hidden;
-}
-
-
 /*modal*/
 
 .modal-container {
@@ -584,4 +573,13 @@ footer nav ul {
 	display: flex;
 	flex-direction: column;
 
+}
+
+.error {
+	display: flex;
+	margin-top: 40px;
+	justify-content: center;
+	font-weight: bold;
+	color: red;
+	visibility:hidden;
 }
