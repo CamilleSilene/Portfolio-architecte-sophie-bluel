@@ -362,6 +362,8 @@ li:hover {
 }
 
 input[type="submit"] {
+	display: flex;
+	justify-content: center;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -371,6 +373,20 @@ input[type="submit"] {
 	height: 40px;
 	text-align: center;
 	border-radius: 60px;
+}
+
+.btn-bluel {
+	font-family: 'Syne';
+	font-weight: 700;
+	background-color: lightsteelblue;
+	color: #1D6154;
+	margin: 2em auto;
+	width: 250px;
+	height: 40px;
+	text-align: center;
+	border-radius: 60px;
+	border: none;
+	align-content: center;
 }
 
 /* footer */
@@ -552,6 +568,7 @@ h3 {
 		font-size: 1.2em;
 		border: none;
 		box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+		margin-bottom: 40px;
 }
 
 #form-modal {
@@ -559,10 +576,11 @@ h3 {
 	flex-direction: column;
 	align-items: center;
 	padding-top: 20px;
+	width: 80%;
 	
 }
 
-.divForm{
+.form-group{
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -574,15 +592,20 @@ h3 {
 	font-size: 15px;
 }
 
-#formFileId{
+#form-group-file{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	background-color: aliceblue;
-	padding: 70px;
+	border-radius: 10px;
+	
 }
 
 #addFile {
 	display: flex;
 	align-self: center;
 	padding-top: 20px;
+	visibility: hidden;
 }
 
 .fa-file-image {
@@ -591,7 +614,14 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;    
+    position: relative;
+	color: lightsteelblue;    
+}
+
+#formBtnDiv {
+	border-top: 1px solid;
+	border-color: #888;
+	width: 100%;
 }
 
 

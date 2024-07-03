@@ -3,6 +3,8 @@ createCategorieSelect();
 createModal();
 enableButton("btn-save-work", false);
 
+let imageFile;
+
 //fonction de création de modale
 function createModal() {
   let asideModal = document.getElementById("modal");
@@ -61,27 +63,11 @@ function createModal() {
   modalAddForm.setAttribute("id", "form-modal");
 
   //input file
-  let divFormFile = document.createElement("div");
-  divFormFile.classList.add("divForm");
-  divFormFile.setAttribute("id", "formFileId")
-
-  let inputFile = document.createElement("input");
-  inputFile.setAttribute("id", "addFile");
-  inputFile.setAttribute("type", "file");
-  inputFile.setAttribute("name", "file");
-  inputFile.setAttribute("accept", "image/png, image/jpeg");
-
-  let labelInputFile = document.createElement("label");
-  labelInputFile.innerText = "+ Ajouter photo";
-
-  let iconeFileFormAdd = document.createElement("i");
-  iconeFileFormAdd.classList.add("fa-regular");
-  iconeFileFormAdd.classList.add("fa-file-image");
-
-  divFormFile.appendChild(iconeFileFormAdd);
-  inputFile.appendChild(labelInputFile);
-  divFormFile.appendChild(inputFile);
-  modalAddForm.appendChild(divFormFile);
+  let formGroupFile = document.createElement("div");
+  formGroupFile.classList.add("form-group");
+  formGroupFile.setAttribute("id", "form-group-file");
+  modalAddForm.appendChild(formGroupFile);
+  formGroupFile.appendChild(createFormSubGroupFile());
 
   let divErrorTypeFile = document.createElement("div");
   divErrorTypeFile.setAttribute("id", "error-type-file");
@@ -95,14 +81,9 @@ function createModal() {
   divErrorSizeFile.innerText = "Le fichier ne doit pas dépasser 4Mo.";
   modalAddForm.appendChild(divErrorSizeFile);
 
-  //imgPreview
-  let imgPreview = document.createElement("img");
-  imgPreview.setAttribute("id", "imageAddModal");
-  modalAddForm.appendChild(imgPreview);
-
   //input title
   divFormTitle = document.createElement("div");
-  divFormTitle.classList.add("divForm");
+  divFormTitle.classList.add("form-group");
   let labelInputTitle = document.createElement("label");
   labelInputTitle.classList.add("labelFormAdd");
   labelInputTitle.innerText = "Titre";
@@ -116,7 +97,7 @@ function createModal() {
 
   //input select
   divFormSelect = document.createElement("div");
-  divFormSelect.classList.add("divForm");
+  divFormSelect.classList.add("form-group");
   let labelSelectCategories = document.createElement("label");
   labelSelectCategories.innerText = "Catégories";
   labelSelectCategories.classList.add("labelFormAdd");
@@ -129,12 +110,15 @@ function createModal() {
   modalAddForm.appendChild(divFormSelect);
 
   //Btn-modale
+  divFormBtn = document.createElement("div");
+  divFormBtn.setAttribute("id", "formBtnDiv");
   let buttonModalSave = document.createElement("input");
   buttonModalSave.setAttribute("type", "submit");
   buttonModalSave.classList.add("btn-modale");
   buttonModalSave.setAttribute("id", "btn-save-work");
   buttonModalSave.setAttribute("value", "Valider");
-  modalAddForm.appendChild(buttonModalSave);
+  divFormBtn.appendChild(buttonModalSave);
+  modalAddForm.appendChild(divFormBtn);
 
   modalAdd.appendChild(modalAddForm);
   modalWrapper.appendChild(modalAdd);
@@ -248,8 +232,6 @@ function createModalFigure(work) {
   icon.addEventListener("click", deleteWork);
   corbeille.appendChild(icon);
 
-  //figureElement.appendChild(createButton("btn-delete", "fa-trash-can"));
-
   imgElement.src = work.imageUrl;
   imgElement.alt = work.title;
 
@@ -306,10 +288,8 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
     let elements = event.target.elements;
 
     const token = window.localStorage.getItem("token");
-    const file = elements["file"].files[0];
-    console.log(file);
     let formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", imageFile);
     formData.append("title", elements["title"].value);
     formData.append("category", elements["select-categorie"].value);
 
@@ -335,26 +315,32 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
   });
 
 //fonction previewPicture
-let imageAddModal = document.getElementById("imageAddModal");
 document.getElementById("addFile").addEventListener("change", previewPicture);
 function previewPicture(event) {
+  if(!isFileValid()) {
+    return;
+  }
   const file = event.target.files[0];
   if (file) {
+    imageFile = event.target.files[0];
+    document.getElementById("form-group-file").innerHTML = "";
+    document.getElementById("form-group-file").appendChild(createModalFilePreview());
+    let imageAddModal = document.getElementById("imageAddModal");
     const reader = new FileReader();
     reader.onload = function (loadedEvent) {
       imageAddModal.src = loadedEvent.target.result;
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); 
   }
+
 }
+
 
 //fonction isFormValid > validation des champs du formulaire Add
 function isFormValid() {
   const titleWorkModal = document.getElementById("addTitle");
   const categorieModal = document.getElementById("selectCategorie");
-  const fileModal = document.getElementById("addFile");
   if (
-    isFileValid(fileModal, 4194304) &&
     titleWorkModal.value != "" &&
     categorieModal.value != "-1"
   ) {
@@ -368,26 +354,31 @@ function isFormValid() {
 
 //fonction pour valider les valeurs de l'image à uploader
 function isFileValid() {
+  let isValid = true;
   const fileModal = document.getElementById("addFile");
   let errorSizeFile = document.getElementById("error-size-file");
   let errorTypeFile = document.getElementById("error-type-file");
 
-  if (fileModal.files.length > 0 && fileModal.files[0].size > 4194304) {
-    errorSizeFile.style.visibility = "visible";
-    return false;
-  }
-  if (
-    fileModal.files.length > 0 &&
-    (fileModal.files[0].type != "image/jpeg" ||
-      fileModal.files[0].type != "image/png")
-  ) {
-    errorTypeFile.style.visibility = "visible";
-    return false;
-  }
-
   errorSizeFile.style.visibility = "hidden";
   errorTypeFile.style.visibility = "hidden";
-  return true;
+
+  if(fileModal.files.length > 0) {
+    const imageFile = fileModal.files[0];
+    const imageSize = imageFile.size;
+    const imageType = imageFile.type;
+
+    if(imageSize  > 4194304 ) {
+      errorSizeFile.style.visibility = "visible";
+      isValid = false;
+    }
+    if(imageType != "image/jpeg" && imageType != "image/png") {
+      errorTypeFile.style.visibility = "visible";
+      isValid = false;
+    }
+  } else {
+    isValid = false;
+  }
+  return isValid;
 }
 
 //isFormValid > le bouton Valider devienne cliquable si le formulaire est valide
@@ -405,4 +396,49 @@ function enableButton(elementId, enabled) {
   } else {
     element.classList.remove("disabled");
   }
+}
+
+function createFormSubGroupFile( ) {
+
+  let formSubGroupFile = document.createElement("div");
+  formSubGroupFile.setAttribute("id", "form-subgroup-file");
+
+  let inputFile = document.createElement("input");
+  inputFile.setAttribute("id", "addFile");
+  inputFile.setAttribute("type", "file");
+  inputFile.setAttribute("name", "file");
+  inputFile.setAttribute("accept", "image/png, image/jpeg");
+
+  let iconeFileFormAdd = document.createElement("i");
+  iconeFileFormAdd.setAttribute("id", "iconeFile");
+  iconeFileFormAdd.classList.add("fa-regular");
+  iconeFileFormAdd.classList.add("fa-file-image");
+
+  let btnUpload = document.createElement("a");
+  btnUpload.innerText = "+ Ajouter photo";
+  btnUpload.setAttribute("id", "uploadPhoto")
+  btnUpload.classList.add("btn-bluel");
+  btnUpload.addEventListener('click', (event) => {
+    inputFile.click();
+  });
+
+  let rulesFile = document.createElement("span");
+  rulesFile.setAttribute("id", "rulesAddFiles");
+  rulesFile.innerText = "jpg, png : 4mo max";
+
+  formSubGroupFile.appendChild(iconeFileFormAdd);
+  formSubGroupFile.appendChild(btnUpload);
+  formSubGroupFile.appendChild(rulesFile);
+  formSubGroupFile.appendChild(inputFile);
+
+  return formSubGroupFile;
+}
+
+function createModalFilePreview( ) {
+  let divFilePreview = document.createElement("div");
+  divFilePreview.setAttribute("id", "modal-file-preview");
+  let imgPreview = document.createElement("img");
+  imgPreview.setAttribute("id", "imageAddModal");
+  divFilePreview.appendChild(imgPreview);
+  return divFilePreview;
 }

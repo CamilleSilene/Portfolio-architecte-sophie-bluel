@@ -46,11 +46,9 @@ async function logIn(logInData) {
 //fonction pour afficher des messages d'erreurs 
 function handleErrors(response) {
   switch (response.status) {
-    case 401:
-      errorMessage = "Erreur dans l’identifiant ou le mot de passe";
-      break;
+    case 401:    
     case 404:
-      errorMessage = "Page introuvable";
+      errorMessage = "Erreur dans l’identifiant ou le mot de passe";
       break;
     default:
       errorMessage = "Erreur inconnue";
