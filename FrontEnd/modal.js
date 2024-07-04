@@ -29,6 +29,7 @@ function createModal() {
   //modalGallery
   let modalGallery = document.createElement("div");
   modalGallery.setAttribute("id", "modal-gallery");
+  modalGallery.classList.add("modalView");
   titleModalGallery = document.createElement("h3");
   titleModalGallery.innerText = "Galerie photo";
   modalGallery.appendChild(titleModalGallery);
@@ -52,6 +53,7 @@ function createModal() {
   let modalAdd = document.createElement("div");
   modalAdd.style.display = "none";
   modalAdd.setAttribute("id", "modal-add");
+  modalAdd.classList.add("modalView");
   titleModalAdd = document.createElement("h3");
   titleModalAdd.innerText = "Ajout photo";
   modalAdd.appendChild(titleModalAdd);
@@ -145,6 +147,8 @@ function openModal (event) {
 //fonction closeModal
 function closeModal(event) {
   event.preventDefault();
+  setModalView("modal-gallery");  
+  document.getElementById("return").style.display = "none";
   let modal = document.getElementById("modal");
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
@@ -176,26 +180,30 @@ document.querySelectorAll(".js-modal").forEach((a) => {
   a.addEventListener("click", openModal);
 });
 
+//fonction pour passage de vues par l'id
+function setModalView(elementId) {
+  let element = document.getElementById(elementId);
+  let elements = document.getElementsByClassName("modalView");
+  for (el of elements) {
+    el.style.display = "none";
+  }
+  element.style.display = "flex";
+}
+
 //action de passage de modal-gallery à modal-add au click sur addPhoto
-document.getElementById("addPhoto").addEventListener("click", (event) => {
-  document.getElementById("modal-add").style.display = "flex";
-  document.getElementById("return").style.display = "flex";
-  document.getElementById("modal-gallery").style.display = "none";
+document.getElementById("addPhoto").addEventListener("click", (event) => {  
+  setModalView("modal-add");
+  document.getElementById("return").style.display = "flex"; 
+
 });
 
 //action de passage de modal-add à modal-gallery au click sur return
   document.getElementById("return").addEventListener("click", (event) => {
-  document.getElementById("modal-gallery").style.display = "flex";
-  document.getElementById("modal-add").style.display = "none";
+  setModalView("modal-gallery");
   document.getElementById("return").style.display = "none";
 });
 
-//action de passage de modal-add à modal-gallery au click sur btn-save-work
-document.getElementById("btn-save-work").addEventListener("click", (event) => {
-  document.getElementById("modal-gallery").style.display = "flex";
-  document.getElementById("modal-add").style.display = "none";
-  document.getElementById("return").style.display = "none";
-});
+
 
 //fonction pour appeler la liste des éléments dans la modale
 async function createModalWorksList() {
@@ -308,20 +316,26 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
       document.getElementById("gallery-works").appendChild(figure);
       figure = createModalFigure(work);
       document.getElementById("modal-works-list").appendChild(figure);
+      closeModal(event);
     }
     document.getElementById("form-modal").reset();
     document.getElementById("imageAddModal").src = "";
     enableButton("btn-save-work", false);
   });
 
+
 //fonction previewPicture
 document.getElementById("addFile").addEventListener("change", previewPicture);
 function previewPicture(event) {
+  console.log("previewPicture")
+
   if(!isFileValid()) {
+    console.log("fichier non valide")
     return;
   }
   const file = event.target.files[0];
   if (file) {
+    console.log("fichier ok")
     imageFile = event.target.files[0];
     document.getElementById("form-group-file").innerHTML = "";
     document.getElementById("form-group-file").appendChild(createModalFilePreview());
@@ -344,10 +358,10 @@ function isFormValid() {
     titleWorkModal.value != "" &&
     categorieModal.value != "-1"
   ) {
-    console.log("valide");
+    console.log("form valide");
     return true;
   } else {
-    console.log("non valide");
+    console.log("form non valide");
     return false;
   }
 }
@@ -387,6 +401,9 @@ formAddModal.addEventListener("change", function () {
   enableButton("btn-save-work", isFormValid());
 });
 
+
+
+
 //fonction activation bouton générique
 function enableButton(elementId, enabled) {
   let element = document.getElementById(elementId);
@@ -398,7 +415,7 @@ function enableButton(elementId, enabled) {
   }
 }
 
-function createFormSubGroupFile( ) {
+function createFormSubGroupFile() {
 
   let formSubGroupFile = document.createElement("div");
   formSubGroupFile.setAttribute("id", "form-subgroup-file");
