@@ -70,6 +70,7 @@ function createModal() {
   formGroupFile.setAttribute("id", "form-group-file");
   modalAddForm.appendChild(formGroupFile);
   formGroupFile.appendChild(createFormSubGroupFile());
+  formGroupFile.appendChild(createModalFilePreview());
 
   let divErrorTypeFile = document.createElement("div");
   divErrorTypeFile.setAttribute("id", "error-type-file");
@@ -147,6 +148,7 @@ function openModal (event) {
 //fonction closeModal
 function closeModal(event) {
   event.preventDefault();
+  resetModalForm();
   setModalView("modal-gallery");  
   document.getElementById("return").style.display = "none";
   let modal = document.getElementById("modal");
@@ -203,8 +205,6 @@ document.getElementById("addPhoto").addEventListener("click", (event) => {
   document.getElementById("return").style.display = "none";
 });
 
-
-
 //fonction pour appeler la liste des éléments dans la modale
 async function createModalWorksList() {
   const response = await fetch("http://localhost:5678/api/works");
@@ -251,7 +251,6 @@ function createModalFigure(work) {
 
 //fonction pour supprimer un élément
 async function deleteWork(event) {
-  console.log(event.target);
   const id = event.target.getAttribute("id").split("-")[2];
   if (window.confirm("Souhaitez-vous vraiment supprimer cet élément ?")) {
     const token = window.localStorage.getItem("token");
@@ -327,18 +326,15 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
 //fonction previewPicture
 document.getElementById("addFile").addEventListener("change", previewPicture);
 function previewPicture(event) {
-  console.log("previewPicture")
 
   if(!isFileValid()) {
-    console.log("fichier non valide")
     return;
   }
   const file = event.target.files[0];
   if (file) {
-    console.log("fichier ok")
     imageFile = event.target.files[0];
-    document.getElementById("form-group-file").innerHTML = "";
-    document.getElementById("form-group-file").appendChild(createModalFilePreview());
+    document.getElementById("form-subgroup-file").style.display = "none";
+    document.getElementById("modal-file-preview").style.display = "flex";
     let imageAddModal = document.getElementById("imageAddModal");
     const reader = new FileReader();
     reader.onload = function (loadedEvent) {
@@ -349,6 +345,10 @@ function previewPicture(event) {
 
 }
 
+document.getElementById("modal-file-preview").addEventListener("click", function(event) {
+  document.getElementById("addFile").click();
+});
+
 
 //fonction isFormValid > validation des champs du formulaire Add
 function isFormValid() {
@@ -356,12 +356,10 @@ function isFormValid() {
   const categorieModal = document.getElementById("selectCategorie");
   if (
     titleWorkModal.value != "" &&
-    categorieModal.value != "-1"
+    categorieModal.value != "-1" && isFileValid( )
   ) {
-    console.log("form valide");
     return true;
   } else {
-    console.log("form non valide");
     return false;
   }
 }
@@ -401,9 +399,6 @@ formAddModal.addEventListener("change", function () {
   enableButton("btn-save-work", isFormValid());
 });
 
-
-
-
 //fonction activation bouton générique
 function enableButton(elementId, enabled) {
   let element = document.getElementById(elementId);
@@ -414,6 +409,8 @@ function enableButton(elementId, enabled) {
     element.classList.remove("disabled");
   }
 }
+
+// input file + preview
 
 function createFormSubGroupFile() {
 
@@ -458,4 +455,11 @@ function createModalFilePreview( ) {
   imgPreview.setAttribute("id", "imageAddModal");
   divFilePreview.appendChild(imgPreview);
   return divFilePreview;
+}
+
+function resetModalForm( ) {
+  document.getElementById("form-modal").reset();
+  document.getElementById("imageAddModal").src = "";
+  document.getElementById("form-subgroup-file").style.display = "flex";
+  document.getElementById("modal-file-preview").style.display = "none";
 }
