@@ -302,18 +302,28 @@ li:hover {
 	flex-direction: row;
 	align-items: baseline;
 	justify-content: center;
-	
+
 }
 
 .black-icone {
 	color: black;
 }
 
+
+
+
 #btn-modifier {
-	padding-left: 30px;
+	padding-left: 10px;
 }
+
 #btn-modifier:hover {
 	cursor: pointer;
+}
+
+#btnModifier {
+	display: flex;
+	flex-direction: row;
+	padding-left: 30px;
 }
 
 /* Contact */
@@ -335,7 +345,7 @@ li:hover {
 	margin-bottom: 20px;
 }
 
-.form {		
+.form {
 	display: flex;
 	flex-direction: column;
 	width: 25em;
@@ -400,10 +410,10 @@ footer nav ul {
 
 #Log-In {
 	display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    margin: auto;
+	flex-direction: column;
+	align-items: center;
+	width: 50%;
+	margin: auto;
 }
 
 #Log-In h2 {
@@ -418,6 +428,7 @@ footer nav ul {
 #forgotten-password:hover {
 	text-decoration: underline;
 }
+
 /*modal*/
 
 h3 {
@@ -429,11 +440,11 @@ h3 {
 }
 
 .modal-container {
-	display: flex;	
-	position: absolute;	
+	display: flex;
+	position: absolute;
 	height: 46vw;
 	width: 42vw;
-	margin-left:auto;
+	margin-left: auto;
 	margin-right: auto;
 	top: 34vw;
 	left: 0;
@@ -442,10 +453,10 @@ h3 {
 
 .modal-wrapper {
 	background-color: white;
-	flex-direction: column;		
+	flex-direction: column;
 	width: 100%;
 	display: flex;
-	align-items: center;	
+	align-items: center;
 	border: 1px solid #888;
 	border-radius: 10px;
 	padding-left: 80px;
@@ -488,7 +499,7 @@ h3 {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	padding: 10px;	
+	padding: 10px;
 	border-bottom: 1px solid;
 	border-color: #888;
 	padding-bottom: 160px;
@@ -510,7 +521,7 @@ h3 {
 }
 
 .works-corbeille i {
-    pointer-events: none;
+	pointer-events: none;
 }
 
 .figure {
@@ -526,13 +537,13 @@ h3 {
 }
 
 /*modale-add*/
-#modal-add 	 {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		width: 100%;
-		align-items: center;
-	}
+#modal-add {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+}
 
 #return {
 	display: flex;
@@ -559,13 +570,12 @@ h3 {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#selectCategorie 
-	{
-		height: 50px;
-		font-size: 1.2em;
-		border: none;
-		box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-		margin-bottom: 40px;
+#selectCategorie {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 40px;
 }
 
 #form-modal {
@@ -574,10 +584,10 @@ h3 {
 	align-items: center;
 	padding-top: 20px;
 	width: 80%;
-	
+
 }
 
-.form-group{
+.form-group {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -589,12 +599,12 @@ h3 {
 	font-size: 15px;
 }
 
-#form-group-file{
+#form-group-file {
 	background-color: aliceblue;
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
-	
+
 }
 
 #form-subgroup-file {
@@ -614,11 +624,11 @@ h3 {
 .fa-file-image {
 	font-weight: 400;
 	font-size: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-	color: lightsteelblue;    
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	color: lightsteelblue;
 }
 
 #formBtnDiv {
@@ -634,13 +644,13 @@ h3 {
 	justify-content: center;
 	font-weight: bold;
 	color: red;
-	visibility:hidden;
+	visibility: hidden;
 }
 
 .error {
-	display: flex;	
+	display: flex;
 	justify-content: center;
 	font-weight: bold;
 	color: red;
-	visibility:hidden;
+	visibility: hidden;
 }

@@ -107,7 +107,6 @@ function createModal() {
   let selectCategorieModal = document.createElement("select");
   selectCategorieModal.setAttribute("name", "select-categorie");
   selectCategorieModal.setAttribute("id", "selectCategorie");
-  selectCategorieModal.setAttribute("value", "-1");
   divFormSelect.appendChild(labelSelectCategories);
   divFormSelect.appendChild(selectCategorieModal);
   modalAddForm.appendChild(divFormSelect);
@@ -277,8 +276,9 @@ async function createCategorieSelect() {
 
   //création select -1
   let option = document.createElement("option");
-  option.innerText = "";
+  option.setAttribute("label" ," ");
   option.value = "-1";
+
   select.appendChild(option);
   //boucle pour récupérer les id de chaque catégorie et les intégrer aux options du select
   for (const category of categories) {
@@ -318,7 +318,7 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
       closeModal(event);
     }
     document.getElementById("form-modal").reset();
-    document.getElementById("imageAddModal").src = "";
+    document.getElementById("imageAddModal").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
     enableButton("btn-save-work", false);
   });
 
@@ -453,13 +453,15 @@ function createModalFilePreview( ) {
   divFilePreview.setAttribute("id", "modal-file-preview");
   let imgPreview = document.createElement("img");
   imgPreview.setAttribute("id", "imageAddModal");
+  imgPreview.setAttribute("alt", "image");
+  imgPreview.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
   divFilePreview.appendChild(imgPreview);
   return divFilePreview;
 }
 
 function resetModalForm( ) {
   document.getElementById("form-modal").reset();
-  document.getElementById("imageAddModal").src = "";
+  document.getElementById("imageAddModal").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
   document.getElementById("form-subgroup-file").style.display = "flex";
   document.getElementById("modal-file-preview").style.display = "none";
 }

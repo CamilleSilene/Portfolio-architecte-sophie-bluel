@@ -2,8 +2,15 @@ createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
 
 //const pour afficher ou non le mode édition
 const loggedIn = isLoggedIn();
-document.getElementById("bandeau-id").style.display = loggedIn  ? "flex"  : "none";
-document.getElementById("btn-modifier").style.display = loggedIn  ? "flex"  : "none";
+document.getElementById("bandeau-id").style.display = loggedIn
+  ? "flex"
+  : "none";
+document.getElementById("btn-modifier").style.display = loggedIn
+  ? "flex"
+  : "none";
+document.getElementById("iconeModifier").style.display = loggedIn
+  ? "flex"
+  : "none";
 if (!loggedIn) {
   createWorksFilters();
 }
@@ -18,12 +25,12 @@ async function createWorksList(idCategory) {
   if (idCategory != 0) {
     works = works.filter((work) => work.categoryId == idCategory);
   }
-  
+
   let gallery = document.getElementById("gallery-works");
   //on vide la page entièrement
   gallery.innerHTML = "";
 
-  // pour chaque work dans le tableau works, on construit un element figureElement généré grâce à la fonction 
+  // pour chaque work dans le tableau works, on construit un element figureElement généré grâce à la fonction
   for (const work of works) {
     const figureElement = createGalleryFigure(work);
     gallery.appendChild(figureElement);
@@ -94,13 +101,12 @@ function createGalleryFigure(work) {
   return figureElement;
 }
 
-
 //fonction création de bouton
 function createButton(id, faName) {
-  let button = document.createElement('button');
-  button.setAttribute('id', id);
-  let icon = document.createElement('i');
-  icon.classList.add('fa-solid');
+  let button = document.createElement("button");
+  button.setAttribute("id", id);
+  let icon = document.createElement("i");
+  icon.classList.add("fa-solid");
   icon.classList.add(faName);
   button.appendChild(icon);
   return button;
