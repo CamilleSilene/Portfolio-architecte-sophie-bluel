@@ -132,11 +132,8 @@ function createModal() {
 //cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
 function openModal (event) {
   event.preventDefault();
-  const target = document.querySelector(event.target.getAttribute("href"));
-  target.style.display = null;
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", "true");
-  modal = target;
+  const modal = document.getElementById("modal");
+  modal.style.display = null;    
   modal.addEventListener("click", closeModal);
   modal.querySelector("#js-close-modal").addEventListener("click", closeModal);
   modal
@@ -152,8 +149,8 @@ function closeModal(event) {
   document.getElementById("return").style.display = "none";
   let modal = document.getElementById("modal");
   modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  modal.removeAttribute("aria-modal");
+  
+ 
   modal.removeEventListener("click", closeModal);
   modal
     .querySelector("#js-close-modal")
@@ -177,11 +174,9 @@ function stopPropagation (event) {
 };
 
 //openModal au click sur les éléments qui ont la classe js-modal
-document.querySelectorAll(".js-modal").forEach((a) => {
-  a.addEventListener("click", openModal);
-});
+document.getElementById("btn-modifier").addEventListener("click", openModal);
 
-//fonction pour passage de vues par l'id
+//fonction pour passage de vues par l'id modal-gallery ou modal-add
 function setModalView(elementId) {
   let element = document.getElementById(elementId);
   let elements = document.getElementsByClassName("modalView");

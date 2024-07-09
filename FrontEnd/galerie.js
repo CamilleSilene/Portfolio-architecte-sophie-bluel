@@ -1,6 +1,6 @@
 createWorksList(0); // (0) pour avoir un Tous au démarrage de l'appli
 
-//const pour afficher ou non le mode édition
+//const pour afficher ou non le mode édition - opérateurs ternaires
 const loggedIn = isLoggedIn();
 document.getElementById("bandeau-id").style.display = loggedIn
   ? "flex"
@@ -21,13 +21,13 @@ async function createWorksList(idCategory) {
   const response = await fetch("http://localhost:5678/api/works");
   let works = await response.json();
   //si la catégorie n'est pas égale à 0
-  //alors on filtre le tableau works pour donner comme réponse l'idCategory de chaque élément work
+  //alors on filtre le tableau works pour obtenir un tableau filtré par idCategory
   if (idCategory != 0) {
     works = works.filter((work) => work.categoryId == idCategory);
   }
 
   let gallery = document.getElementById("gallery-works");
-  //on vide la page entièrement
+  //on vide la page entièrement pour éviter des doublons
   gallery.innerHTML = "";
 
   // pour chaque work dans le tableau works, on construit un element figureElement généré grâce à la fonction
@@ -36,7 +36,9 @@ async function createWorksList(idCategory) {
     gallery.appendChild(figureElement);
   }
 }
-//fonction pour créer le filtrage des works
+
+
+//fonction pour créer le filtrage des works par les boutons
 async function createWorksFilters() {
   const response = await fetch("http://localhost:5678/api/categories");
   const categories = await response.json();
@@ -87,11 +89,10 @@ function onCategoryClick(event) {
 function createGalleryFigure(work) {
   let figureElement = document.createElement("figure");
   figureElement.setAttribute("id", "figure-gallery-" + work.id);
-  let imgElement = document.createElement("img");
 
+  let imgElement = document.createElement("img");
   imgElement.src = work.imageUrl;
   imgElement.alt = work.title;
-
   figureElement.appendChild(imgElement);
 
   let figCaptionElement = document.createElement("figcaption");
