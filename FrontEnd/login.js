@@ -39,14 +39,14 @@ async function logIn(logInData) {
       handleErrors(response);
     }
   } catch (error) {
-    console.log(error);    
+    console.log(error);
   }
 }
 
-//fonction pour afficher des messages d'erreurs 
+//fonction pour afficher des messages d'erreurs
 function handleErrors(response) {
   switch (response.status) {
-    case 401:    
+    case 401:
     case 404:
       errorMessage = "Erreur dans l’identifiant ou le mot de passe";
       break;
@@ -54,9 +54,7 @@ function handleErrors(response) {
       errorMessage = "Erreur inconnue";
   }
 
- let errorDiv = document.getElementById("login-error");
+  let errorDiv = document.getElementById("login-error");
   errorDiv.innerText = errorMessage;
-  errorDiv.style.visibility = "visible"; 
-
+  errorDiv.style.visibility = "visible";
 }
-

@@ -129,28 +129,26 @@ function createModal() {
 }
 
 //fonction openModal
-//cible les événements qui ont l'attribut href pour la function openModal (tous les liens qui peuvent ouvrir une modale)
-function openModal (event) {
+function openModal(event) {
   event.preventDefault();
   const modal = document.getElementById("modal");
-  modal.style.display = null;    
+  modal.style.display = null;
   modal.addEventListener("click", closeModal);
   modal.querySelector("#js-close-modal").addEventListener("click", closeModal);
   modal
     .querySelector(".js-stop-modal")
     .addEventListener("click", stopPropagation);
-};
+}
 
 //fonction closeModal
 function closeModal(event) {
   event.preventDefault();
   resetModalForm();
-  setModalView("modal-gallery");  
+  setModalView("modal-gallery");
   document.getElementById("return").style.display = "none";
   let modal = document.getElementById("modal");
   modal.style.display = "none";
-  
- 
+
   modal.removeEventListener("click", closeModal);
   modal
     .querySelector("#js-close-modal")
@@ -159,7 +157,7 @@ function closeModal(event) {
     .querySelector(".js-stop-modal")
     .removeEventListener("click", stopPropagation);
   modal = null;
-};
+}
 
 //closeModal au click extérieur
 document.addEventListener("click", (event) => {
@@ -169,9 +167,9 @@ document.addEventListener("click", (event) => {
 });
 
 //fonction stopPropagation pour stopper la fermeture de la modale au click intérieur
-function stopPropagation (event) {
+function stopPropagation(event) {
   event.stopPropagation();
-};
+}
 
 //openModal au click sur les éléments qui ont la classe js-modal
 document.getElementById("btn-modifier").addEventListener("click", openModal);
@@ -187,14 +185,13 @@ function setModalView(elementId) {
 }
 
 //action de passage de modal-gallery à modal-add au click sur addPhoto
-document.getElementById("addPhoto").addEventListener("click", (event) => {  
+document.getElementById("addPhoto").addEventListener("click", (event) => {
   setModalView("modal-add");
-  document.getElementById("return").style.display = "flex"; 
-
+  document.getElementById("return").style.display = "flex";
 });
 
 //action de passage de modal-add à modal-gallery au click sur return
-  document.getElementById("return").addEventListener("click", (event) => {
+document.getElementById("return").addEventListener("click", (event) => {
   setModalView("modal-gallery");
   document.getElementById("return").style.display = "none";
 });
@@ -271,7 +268,7 @@ async function createCategorieSelect() {
 
   //création select -1
   let option = document.createElement("option");
-  option.setAttribute("label" ," ");
+  option.setAttribute("label", " ");
   option.value = "-1";
 
   select.appendChild(option);
@@ -285,7 +282,9 @@ async function createCategorieSelect() {
 }
 
 //ajout des éléments dans le form
-document.getElementById("modal-add").addEventListener("submit", async (event) => {
+document
+  .getElementById("modal-add")
+  .addEventListener("submit", async (event) => {
     event.preventDefault();
     let elements = event.target.elements;
 
@@ -313,16 +312,15 @@ document.getElementById("modal-add").addEventListener("submit", async (event) =>
       closeModal(event);
     }
     document.getElementById("form-modal").reset();
-    document.getElementById("imageAddModal").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+    document.getElementById("imageAddModal").src =
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
     enableButton("btn-save-work", false);
   });
-
 
 //fonction previewPicture
 document.getElementById("addFile").addEventListener("change", previewPicture);
 function previewPicture(event) {
-
-  if(!isFileValid()) {
+  if (!isFileValid()) {
     return;
   }
   const file = event.target.files[0];
@@ -335,15 +333,15 @@ function previewPicture(event) {
     reader.onload = function (loadedEvent) {
       imageAddModal.src = loadedEvent.target.result;
     };
-    reader.readAsDataURL(file); 
+    reader.readAsDataURL(file);
   }
-
 }
 
-document.getElementById("modal-file-preview").addEventListener("click", function(event) {
-  document.getElementById("addFile").click();
-});
-
+document
+  .getElementById("modal-file-preview")
+  .addEventListener("click", function (event) {
+    document.getElementById("addFile").click();
+  });
 
 //fonction isFormValid > validation des champs du formulaire Add
 function isFormValid() {
@@ -351,7 +349,8 @@ function isFormValid() {
   const categorieModal = document.getElementById("selectCategorie");
   if (
     titleWorkModal.value != "" &&
-    categorieModal.value != "-1" && isFileValid( )
+    categorieModal.value != "-1" &&
+    isFileValid()
   ) {
     return true;
   } else {
@@ -369,16 +368,16 @@ function isFileValid() {
   errorSizeFile.style.visibility = "hidden";
   errorTypeFile.style.visibility = "hidden";
 
-  if(fileModal.files.length > 0) {
+  if (fileModal.files.length > 0) {
     const imageFile = fileModal.files[0];
     const imageSize = imageFile.size;
     const imageType = imageFile.type;
 
-    if(imageSize  > 4194304 ) {
+    if (imageSize > 4194304) {
       errorSizeFile.style.visibility = "visible";
       isValid = false;
     }
-    if(imageType != "image/jpeg" && imageType != "image/png") {
+    if (imageType != "image/jpeg" && imageType != "image/png") {
       errorTypeFile.style.visibility = "visible";
       isValid = false;
     }
@@ -408,7 +407,6 @@ function enableButton(elementId, enabled) {
 // input file + preview
 
 function createFormSubGroupFile() {
-
   let formSubGroupFile = document.createElement("div");
   formSubGroupFile.setAttribute("id", "form-subgroup-file");
 
@@ -425,9 +423,9 @@ function createFormSubGroupFile() {
 
   let btnUpload = document.createElement("a");
   btnUpload.innerText = "+ Ajouter photo";
-  btnUpload.setAttribute("id", "uploadPhoto")
+  btnUpload.setAttribute("id", "uploadPhoto");
   btnUpload.classList.add("btn-bluel");
-  btnUpload.addEventListener('click', (event) => {
+  btnUpload.addEventListener("click", (event) => {
     inputFile.click();
   });
 
@@ -443,20 +441,22 @@ function createFormSubGroupFile() {
   return formSubGroupFile;
 }
 
-function createModalFilePreview( ) {
+function createModalFilePreview() {
   let divFilePreview = document.createElement("div");
   divFilePreview.setAttribute("id", "modal-file-preview");
   let imgPreview = document.createElement("img");
   imgPreview.setAttribute("id", "imageAddModal");
   imgPreview.setAttribute("alt", "image");
-  imgPreview.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+  imgPreview.src =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
   divFilePreview.appendChild(imgPreview);
   return divFilePreview;
 }
 
-function resetModalForm( ) {
+function resetModalForm() {
   document.getElementById("form-modal").reset();
-  document.getElementById("imageAddModal").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
+  document.getElementById("imageAddModal").src =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=";
   document.getElementById("form-subgroup-file").style.display = "flex";
   document.getElementById("modal-file-preview").style.display = "none";
 }

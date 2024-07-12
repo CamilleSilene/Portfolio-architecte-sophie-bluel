@@ -37,7 +37,6 @@ async function createWorksList(idCategory) {
   }
 }
 
-
 //fonction pour créer le filtrage des works par les boutons
 async function createWorksFilters() {
   const response = await fetch("http://localhost:5678/api/categories");
